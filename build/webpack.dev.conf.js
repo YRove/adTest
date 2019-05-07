@@ -13,13 +13,13 @@ const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 const argv = require('yargs').argv;
 
-const port = argv.port || '8080';
+const port = argv.port || '8081';
 let devServer;
 if (argv.DEV_SERVER === 'local') {
     devServer = `http://localhost:${port}/mock/`;
 }
 else {
-    devServer = argv.DEV_SERVER || 'http://127.0.0.1:8888/';
+    devServer = argv.DEV_SERVER || 'http://127.0.0.1:8080/';
 }
 
 if (devServer) {
@@ -29,21 +29,6 @@ if (devServer) {
         devServer = 'http://' + devServer;
     }
 }
-
-function pathRewrite(path, req) {
-    if (argv.DEV_SERVER === 'local') {
-        if (req.method === 'POST') {
-            req.method = 'GET';
-        }
-    }
-}
-
-const proxyConfig = {
-    target: devServer,
-    pathRewrite,
-    secure: false,
-    changeOrigin: true
-};
 
 const devWebpackConfig = merge(baseWebpackConfig, {
     module: {
@@ -61,11 +46,8 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         port,
         disableHostCheck: true,
         proxy: {
-            '/api': proxyConfig,
-            '/login': proxyConfig,
-            '/logout': proxyConfig,
-            '/user/*': {
-                target: 'http://localhost:8880/',
+            '/api/*': {
+                target: 'http://localhost:8080/',
                 secure: false,
                 changeOrigin: true
             }

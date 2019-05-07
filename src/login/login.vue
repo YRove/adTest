@@ -37,10 +37,11 @@ export default {
           this.$message.error('请输入用户名或密码！')
           return
         }
-        this.$axios.post('/api/login',{
+        this.$axios.post('/login',{
           username: this.userName,
           password: this.passWord
         }).then(response => {
+          console.log(res);
           let res = response.data;
           if (res.code === 200) {
             this.$message({

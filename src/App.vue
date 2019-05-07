@@ -25,7 +25,7 @@
                     this.isShowHeader = false;
                 }
 
-                if (e.name != 'login' && e.name != '404' && e.name != 'managelogin') {
+                if (e.name != 'login' && e.name != '404' && e.name != 'managelogin' && e.name != 'frontregister') {
                     this.isShowHeader = true;
                 } else {
                     this.isShowHeader = false;
@@ -40,7 +40,7 @@
                     this.isShowHeader = false;
                 }
 
-                if (this.$route.name != 'login' && this.$route.name != 'notFound' && this.$route.name != 'managelogin') {
+                if (this.$route.name != 'login' && this.$route.name != 'notFound' && this.$route.name != 'managelogin' && this.$route.name != 'frontregister') {
                     this.isShowHeader = true;
                 } else {
                     this.isShowHeader = false;

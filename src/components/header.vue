@@ -1,23 +1,13 @@
 <template>
     <el-header style="font-size: 14px;width:100%;">
         <router-link :to="{path:'/first'}">
-            <span class="el-header-index"><i class="el-icon-star-on"></i>首页</span>
+            <span class="el-header-index"><i class="el-icon-star-on"></i>注册页</span>
         </router-link>
-        <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>查看个人信息</el-dropdown-item>
-                <el-dropdown-item>修改密码</el-dropdown-item>
-                <el-dropdown-item @click.native="handleCommand('logout')">退出登录</el-dropdown-item>
-            </el-dropdown-menu>
-        </el-dropdown>
-        <span style="float:right">管理员</span>
     </el-header>
 </template>
 
 <script>
     import axios from 'axios';
-    import constant from '../assets/js/constant';
 
     export default {
         data() {

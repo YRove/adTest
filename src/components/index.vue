@@ -4,14 +4,31 @@
             <span class="el-header-index"><i class="el-icon-star-on"></i>首页</span>
         </router-link>
         <el-dropdown>
-            <i class="el-icon-setting" style="margin-right: 15px"></i>
-            <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item>查看个人信息</el-dropdown-item>
-                <el-dropdown-item>修改密码</el-dropdown-item>
-                <el-dropdown-item @click.native="handleCommand('logout')">退出登录</el-dropdown-item>
+            <span class="el-dropdown-link">
+                <span class="user-image"><img :src="headImage" alt=""></span>
+                <span>{{userData.userName}}</span>
+            </span>
+            <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <el-dropdown-item>
+                <a>
+                查看个人信息
+                <i class="fa fa-id-card-o fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a>
+                修改密码
+                <i class="fa fa-key fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a @click="loginOut">
+                退出登录
+                <i class="fa fa-sign-out fa-lg"></i>
+                </a>
+            </el-dropdown-item>
             </el-dropdown-menu>
         </el-dropdown>
-        <span style="float:right">管理员</span>
     </el-header>
 </template>
 
@@ -20,11 +37,22 @@
     import constant from '../assets/js/constant';
 
     export default {
+        props:{
+        userData: {
+            type: Object,
+            default: function () {
+            return {
+
+            }
+            }
+        }
+        },
         data() {
             return {
                 data: [],
                 pagesize: 10,
-                crossId: 1
+                crossId: 1,
+                headImage: require('../assets/img/userdefault.png')
             }
         },
         created() {
@@ -64,6 +92,15 @@
 
                     })
                 }
+            },
+            loginOut(){
+                this.$axios.post('/api/logout').then(response => {
+                let res = response.data
+                if (res.status == 0) {
+                    this.$message.success('退出成功')
+                    this.$router.push({name:'EndLogin'})
+                }
+                })
             }
         }
     }
@@ -115,6 +152,27 @@
         border-right: 3px solid #ebf0f3;
         & li {
             text-align: left;
+        }
+    }
+    .user-dropdown{
+    font-size: 13px;
+    a i{
+      float: right;
+      line-height: 36px;
+    }
+    }
+    .user-image{
+        display: inline-block;
+        width: 30px;
+        height:30px;
+        border-radius: 50%;
+        vertical-align: middle;
+        margin-right: 8px;
+        overflow: hidden;
+        cursor: pointer;
+        img{
+        display: block;
+        width: 100%;
         }
     }
 </style>
