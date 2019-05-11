@@ -10,7 +10,7 @@
                 <el-button @click="submit" class="loginBtn">登录</el-button>
             </div>
             <div class="marginT20">
-                <router-link to="/frontregister" class="note">注册账号</router-link>
+                <router-link :to="{path:'/frontregister',query: {type: $route.query.type}}" class="note">注册账号</router-link>
                 <!--<a href="javascript:;">忘记密码？</a>-->
                 <router-link class="note  pull-right" to="/select">返回选择其他角色</router-link>
             </div>
@@ -27,49 +27,51 @@ export default {
         return {
             userName: '',
             passWord: '',
+            type: 0,
             logoSrc: require('@/assets/img/logo.png')
         }
     },
     methods: {
-      // 登录
-      submit() {
-        if (this.userName == '' || this.passWord == '') {
-          this.$message.error('请输入用户名或密码！')
-          return
+        // 登录
+        submit() {
+            this.type = this.$route.query.type;
+            if (this.userName == '' || this.passWord == '') {
+                this.$message({
+                    showClose: true,
+                    message: '请输入您的账号名及密码',
+                    type: 'warning'
+                });
+            } else {
+                this.$axios.post('/manageLogin',{
+                    username: this.userName,
+                    password: this.passWord,
+                    type: this.type
+                }).then(res => {
+                    if (res.data == 'ok') {
+                        this.$message({
+                            showClose: true,
+                            message: '登录成功！',
+                            type: 'success'
+                        });
+                        // 登录成功跳到首页
+                        this.$router.push({path: '/aside', query: {type: this.type}});
+                    } else {
+                        this.$message({
+                        showClose: true,
+                        message: '用户名或密码错误！',
+                        type: 'warning'
+                        });
+                        this.password = ''
+                    }
+                }).catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: '登录失败，请稍后再试！',
+                            type: 'warning'
+                        });
+                })
+            }
         }
-        // 登录成功跳到首页
-        this.$router.push({path: '/aside'});
-        // this.$axios.post('/user/login',{
-        //   userName: this.userName,
-        //   userPwd: this.passWord
-        // }).then(response => {
-        //   let res = response.data;
-        //   if (res.status == '0') {
-        //     this.$message({
-        //       showClose: true,
-        //       message: '登录成功！',
-        //       type: 'success'
-        //     });
-        //     // 登录成功跳到首页
-                // this.$router.push({path: '/aside/basePersionalInformation'});
-        //     this.$mySessionStorage.set('currentUser',res.result,'json');
-        //     this.$router.push({name:'FrontIndex'});
-        //   } else {
-        //     this.$message({
-        //       showClose: true,
-        //       message: '用户名或密码错误！',
-        //       type: 'warning'
-        //     });
-        //     this.password = ''
-        //   }
-        // }).catch(err => {
-        //   this.$message({
-        //     showClose: true,
-        //     message: '登录失败，请稍后再试！',
-        //     type: 'warning'
-        //   });
-        // })
-      }
     },
     mounted() {
         var bg = new CanvasBackground({

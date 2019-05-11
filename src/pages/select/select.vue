@@ -28,22 +28,22 @@ export default {
         adUserLogin() {
             // 普通用户登录页面
             this.type = 1;
-            this.$router.push({path: '/login'});
+            this.$router.push({path: '/login', query: { type: 1 }});
         },
         sciResearcherLogin() {
             // 科研人员登录页面
             this.type = 2;
-            this.$router.push({path: '/managelogin'});
+            this.$router.push({path: '/managelogin', query: { type: 2 }});
         },
         hCareWorkerLogin() {
             // 医护人员登录页面
             this.type = 3;
-            this.$router.push({path: '/managelogin'});
+            this.$router.push({path: '/managelogin', query: { type: 3 }});
         },
         communityUserLogin() {
             // 社区卫生中心人员登录页面
             this.type = 4;
-            this.$router.push({path: '/managelogin'});
+            this.$router.push({path: '/managelogin', query: { type: 4 }});
         }
 
     }
@@ -83,7 +83,6 @@ export default {
 .title-sys {
     text-align: center;
     padding: 10px;
-    border: 1px solid black;
 }
 
 .shuli { 

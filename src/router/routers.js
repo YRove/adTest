@@ -194,9 +194,9 @@ var router = new VueRouter({
 // router.beforeEach((to, from, next) => {
 //     // 可以在路由元信息指定哪些页面需要登录权限
 //     var islogin = false // 假设没有登录（这里应从接口获取）
-//     this.$axios.get('api/isLogin').then(res => {
+//     this.$axios.post('api/login').then(res => {
 
-//         islogin = res.data;
+//         islogin = res;
 
 //         if (to.meta.requiresAuth && !islogin) { // 需要登录授权，这里还需要判断是否登录
 //             next('/login')// 跳转到登录

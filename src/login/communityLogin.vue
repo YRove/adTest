@@ -7,10 +7,10 @@
                 <el-input v-model="passWord" placeholder="请输入密码" type="password" @keyup.enter="submit" class="marginT10"></el-input>
             </div>
             <div class="input-text-wrapper marginT30 text-center">
-                <el-button type="warning" @click="submit" class="loginBtn">登录</el-button>
+                <el-button @click="submit" class="loginBtn">登录</el-button>
             </div>
             <div class="marginT20">
-                <router-link :to="{path:'/frontregister',query: {type: $route.query.type}}" class="note">注册账号</router-link>
+                <router-link to="/frontregister" class="note">注册账号</router-link>
                 <!--<a href="javascript:;">忘记密码？</a>-->
                 <router-link class="note  pull-right" to="/select">返回选择其他角色</router-link>
             </div>
@@ -27,7 +27,7 @@ export default {
         return {
             userName: '',
             passWord: '',
-            logoSrc: require('@/assets/img/logo1.png'),
+            logoSrc: require('@/assets/img/logo.png'),
             type: 0
         }
     },
@@ -42,37 +42,33 @@ export default {
                     type: 'warning'
                 });
             } else {
-                this.$axios.post('/login',{
-                username: this.userName,
-                password: this.passWord,
-                type: this.type
-            }).then(response => {
-                let res = response;
-                if (res.data === 'ok') {
-                    this.$message({
-                        showClose: true,
-                        message: '登录成功！',
-                        type: 'success'
-                    });
-                    // 登录成功跳到首页
-                    this.$router.push({path: '/aside/basePersionalInformation', query: {type: this.type}});
-                    this.$alert('请先填写您的个人信息，以便为您提供符合的测试内容', '友情提示', {
-                        confirmButtonText: '确定'
-                    });
-                } else {
-                    this.$message({
+                this.$axios.post('/communityLogin',{
+                    username: this.userName,
+                    password: this.passWord,
+                    type: this.type
+                }).then(res => {
+                    if (res.data == 'ok') {
+                        this.$message({
+                            showClose: true,
+                            message: '登录成功！',
+                            type: 'success'
+                        });
+                        // 登录成功跳到首页
+                        this.$router.push({path: '/aside', query: {type: this.type}});
+                    } else {
+                        this.$message({
                         showClose: true,
                         message: '用户名或密码错误！',
                         type: 'warning'
-                    });
-                    this.password = ''
-                }
+                        });
+                        this.password = ''
+                    }
                 }).catch(err => {
-                    this.$message({
-                        showClose: true,
-                        message: '登录失败，请稍后再试！',
-                        type: 'warning'
-                    });
+                        this.$message({
+                            showClose: true,
+                            message: '登录失败，请稍后再试！',
+                            type: 'warning'
+                        });
                 })
             }
         }
@@ -80,8 +76,8 @@ export default {
     mounted() {
         var bg = new CanvasBackground({
             canvasContainerID: "canvas",
-            circleColor: "rgba(255,128,0,1)",
-            lineColor: "rgba(255,159,64,1)",
+            circleColor: "rgba(0, 0, 205, 1)",
+            lineColor: "rgba(0, 0, 205, 1)",
             canvasOpacity: 0.3
         });
     }
@@ -90,7 +86,7 @@ export default {
 
 <style scoped lang="scss">
 .note {
-    color: #f7ba2a;
+    color: #4B0082;
     font-size: 14px;
 }
 /*必填项 * 图标*/
@@ -133,5 +129,7 @@ export default {
 
 .loginBtn {
     width: 100%;
+    background-color: #4B0082;
+    color: #fff;
 }
 </style>

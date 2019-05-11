@@ -14,12 +14,13 @@
         </div>
         <div class="input-text-wrapper marginT30 text-center">
             <el-button type="primary" @click="submit" class="registerBtn">提交</el-button>
-            <router-link class="pull-right" to="/login">
+            <router-link class="pull-right" :to="urls[$route.query.type - 1]">
                 <el-button type="primary" class="loginBtn">去登录</el-button>
             </router-link>
         </div>
         </div>
   </div>
+
 </template>
 
 <script>
@@ -32,6 +33,13 @@
                     username: '',
                     password: ''
                 },
+                urls: [
+                    {path: '/login', query: {type: this.$route.query.type}},
+                    {path: '/managelogin', query: {type: this.$route.query.type}},
+                    {path: '/managelogin', query: {type: this.$route.query.type}},
+                    {path: '/managelogin', query: {type: this.$route.query.type}}
+                ],
+                type: 0,
                 rules:{
                     username: [
                         { required: true, message: '请输入您的账号名', trigger: 'blur' },
@@ -51,24 +59,35 @@
         methods: {
         // 登录
             submit() {
-                this.$axios.post('/register',{
-                    user: this.userForm
-                }).then(res => {
-                if (res.data == 'ok') {
+                this.type = this.$route.query.type;
+                if (this.userForm.username == '' || this.userForm.password == '') {
                     this.$message({
-                    showClose: true,
-                    message: '恭喜你，注册成功！',
-                    type: 'success'
+                        showClose: true,
+                        message: '请输入您的账号名及密码',
+                        type: 'warning'
                     });
-                    this.$router.push('/')
+                } else {
+                    this.$axios.post('/register',{
+                        username: this.userForm.username,
+                        password: this.userForm.password,
+                        type: this.type
+                    }).then(res => {
+                    if (res.data == 'ok') {
+                        this.$message({
+                        showClose: true,
+                        message: '恭喜你，注册成功！',
+                        type: 'success'
+                        });
+                        this.$router.push('/')
+                    }
+                    }).catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: '注册失败，请稍后再试！',
+                            type: 'warning'
+                        });
+                    })
                 }
-                }).catch(err => {
-                this.$message({
-                    showClose: true,
-                    message: '注册失败，请稍后再试！',
-                    type: 'warning'
-                });
-                })
             }
         }
     }

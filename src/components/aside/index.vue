@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container  v-if="type == 1">
         <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
             <el-menu class="el-menu-vertical-demo">
                 <el-submenu index="1">
@@ -88,6 +88,168 @@
         </el-aside>
         <router-view></router-view>
     </el-container>
+    <el-container  v-else-if="type == 2">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
+            <el-menu class="el-menu-vertical-demo">
+                <el-submenu index="1">
+                    <template slot="title"><i class="el-icon-setting"></i>题库管理</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/adExamOne',query:{institutionCode:code}}">
+                            <el-menu-item index="1-1">记忆检测试卷一</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/errorCode',query:{institutionCode:code}}">
+                            <el-menu-item index="1-3">记忆检测试卷二</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/protocol',query:{institutionCode:code}}">
+                            <el-menu-item index="1-4">记忆检测试卷三</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/constantValue',query:{institutionCode:code}}">
+                            <el-menu-item index="1-5">记忆检测试卷四</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/sequence',query:{institutionCode:code}}">
+                            <el-menu-item index="1-6">记忆检测试卷五</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>用户信息管理</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-1">逻辑训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-4">记忆问答</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                    <el-submenu v-for="(item,index) in data" :key="index" :index="'1'+index">
+                        <template slot="title">{{item.transCode}}</template>
+                        <router-link
+                            :to="{path:'/aside/essentialInformation',query:{institutionCode:code,transCode:item.transCode}}">
+                            <el-menu-item :index="'2-2'+index">交易基本信息</el-menu-item>
+                        </router-link>
+                        <router-link v-if="item.connectType === 'CLIENT'"
+                            :to="{path:'/aside/routeConfiguration',query:{institutionCode:code,transCode:item.transCode}}">
+                            <el-menu-item :index="'2-3'+index">交易路由配置</el-menu-item>
+                        </router-link>
+                        <router-link v-if="item.connectType === 'SERVER'"
+                                     :to="{path:'/aside/serverRouteConfiguration',query:{institutionCode:code,transCode:item.transCode}}">
+                            <el-menu-item :index="'2-3'+index">交易路由配置</el-menu-item>
+                        </router-link>
+                    </el-submenu>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+        <router-view></router-view>
+    </el-container>
+    <el-container  v-else-if="type == 3">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
+            <el-menu class="el-menu-vertical-demo">
+                <el-submenu index="1">
+                    <template slot="title"><i class="el-icon-setting"></i>题库管理</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/adExamOne',query:{institutionCode:code}}">
+                            <el-menu-item index="1-1">记忆检测试卷一</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/errorCode',query:{institutionCode:code}}">
+                            <el-menu-item index="1-3">记忆检测试卷二</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/protocol',query:{institutionCode:code}}">
+                            <el-menu-item index="1-4">记忆检测试卷三</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/constantValue',query:{institutionCode:code}}">
+                            <el-menu-item index="1-5">记忆检测试卷四</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/sequence',query:{institutionCode:code}}">
+                            <el-menu-item index="1-6">记忆检测试卷五</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>用户信息管理</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-1">逻辑训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-4">记忆问答</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+        <router-view></router-view>
+    </el-container>
+    <el-container  v-else-if="type == 4">
+        <el-aside width="200px" style="background-color: rgb(238, 241, 246);">
+            <el-menu class="el-menu-vertical-demo">
+                <el-submenu index="1">
+                    <template slot="title"><i class="el-icon-setting"></i>题库管理</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/adExamOne',query:{institutionCode:code}}">
+                            <el-menu-item index="1-1">记忆检测试卷一</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/errorCode',query:{institutionCode:code}}">
+                            <el-menu-item index="1-3">记忆检测试卷二</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/protocol',query:{institutionCode:code}}">
+                            <el-menu-item index="1-4">记忆检测试卷三</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/constantValue',query:{institutionCode:code}}">
+                            <el-menu-item index="1-5">记忆检测试卷四</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/sequence',query:{institutionCode:code}}">
+                            <el-menu-item index="1-6">记忆检测试卷五</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="2">
+                    <template slot="title"><i class="el-icon-menu"></i>社区用户信息管理</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-1">逻辑训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-4">记忆问答</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                    <el-submenu v-for="(item,index) in data" :key="index" :index="'1'+index">
+                        <template slot="title">{{item.transCode}}</template>
+                        <router-link
+                            :to="{path:'/aside/essentialInformation',query:{institutionCode:code,transCode:item.transCode}}">
+                            <el-menu-item :index="'2-2'+index">交易基本信息</el-menu-item>
+                        </router-link>
+                        <router-link v-if="item.connectType === 'CLIENT'"
+                            :to="{path:'/aside/routeConfiguration',query:{institutionCode:code,transCode:item.transCode}}">
+                            <el-menu-item :index="'2-3'+index">交易路由配置</el-menu-item>
+                        </router-link>
+                        <router-link v-if="item.connectType === 'SERVER'"
+                                     :to="{path:'/aside/serverRouteConfiguration',query:{institutionCode:code,transCode:item.transCode}}">
+                            <el-menu-item :index="'2-3'+index">交易路由配置</el-menu-item>
+                        </router-link>
+                    </el-submenu>
+                </el-submenu>
+            </el-menu>
+        </el-aside>
+        <router-view></router-view>
+    </el-container>
 </template>
 
 <script>
@@ -101,9 +263,11 @@
                 code1: [],
                 code: '',
                 form: {},
+                type: 0
             }
         },
         created() {
+            this.type = this.$route.query.type;
             this.code = this.$route.query.institutionCode;
             this.init();
             this.$root.eventHub.$on('onSubmit', ()=>{
@@ -116,7 +280,6 @@
         methods: {
 
             init() {
-
                 axios.get('api/transCode/getTransCodeByInstanceCode', {
                     params: {
                         instanceCode: this.code

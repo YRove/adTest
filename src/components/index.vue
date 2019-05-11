@@ -1,6 +1,93 @@
 <template>
-    <el-header style="font-size: 14px;width:100%;">
+    <el-header style="font-size: 14px;width:100%;" v-if="type == 1">
         <span class="el-header-index"><i class="el-icon-star-on"></i>普通用户</span>
+        <el-dropdown>
+            <span class="el-dropdown-link">
+                <span class="user-image"><img :src="headImage" alt=""></span>
+                <span>{{userData.userName}}</span>
+            </span>
+            <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <el-dropdown-item>
+                <a>
+                查看个人信息
+                <i class="fa fa-id-card-o fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a>
+                修改密码
+                <i class="fa fa-key fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a @click="loginOut">
+                退出登录
+                <i class="fa fa-sign-out fa-lg"></i>
+                </a>
+            </el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+    </el-header>
+    <el-header style="font-size: 14px;width:100%;" v-else-if="type == 2">
+        <span class="el-header-index"><i class="el-icon-star-on"></i>科研人员</span>
+        <el-dropdown>
+            <span class="el-dropdown-link">
+                <span class="user-image"><img :src="headImage" alt=""></span>
+                <span>{{userData.userName}}</span>
+            </span>
+            <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <el-dropdown-item>
+                <a>
+                查看个人信息
+                <i class="fa fa-id-card-o fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a>
+                修改密码
+                <i class="fa fa-key fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a @click="loginOut">
+                退出登录
+                <i class="fa fa-sign-out fa-lg"></i>
+                </a>
+            </el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+    </el-header>
+    <el-header style="font-size: 14px;width:100%;" v-else-if="type == 3">
+        <span class="el-header-index"><i class="el-icon-star-on"></i>医护人员</span>
+        <el-dropdown>
+            <span class="el-dropdown-link">
+                <span class="user-image"><img :src="headImage" alt=""></span>
+                <span>{{userData.userName}}</span>
+            </span>
+            <el-dropdown-menu slot="dropdown" class="user-dropdown">
+            <el-dropdown-item>
+                <a>
+                查看个人信息
+                <i class="fa fa-id-card-o fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a>
+                修改密码
+                <i class="fa fa-key fa-fw"></i>
+                </a>
+            </el-dropdown-item>
+            <el-dropdown-item>
+                <a @click="loginOut">
+                退出登录
+                <i class="fa fa-sign-out fa-lg"></i>
+                </a>
+            </el-dropdown-item>
+            </el-dropdown-menu>
+        </el-dropdown>
+    </el-header>
+    <el-header style="font-size: 14px;width:100%;" v-else-if="type == 4">
+        <span class="el-header-index"><i class="el-icon-star-on"></i>社区卫生中心人员</span>
         <el-dropdown>
             <span class="el-dropdown-link">
                 <span class="user-image"><img :src="headImage" alt=""></span>
@@ -50,19 +137,14 @@
                 data: [],
                 pagesize: 10,
                 crossId: 1,
+                type: 0,
                 headImage: require('../assets/img/userdefault.png')
             }
         },
         created() {
-            //this.init();
-        },
-        mounted() {
-            this.init();
+            this.type = this.$route.query.type;
         },
         methods: {
-            init() {
-
-            },
             toDetail(id) {
                 this.$router.push({path: `/index/${id}`});
                 this.crossId = id;
