@@ -1,8 +1,6 @@
 <template>
     <el-header style="font-size: 14px;width:100%;">
-        <router-link :to="{path:'/first'}">
-            <span class="el-header-index"><i class="el-icon-star-on"></i>首页</span>
-        </router-link>
+        <span class="el-header-index"><i class="el-icon-star-on"></i>普通用户</span>
         <el-dropdown>
             <span class="el-dropdown-link">
                 <span class="user-image"><img :src="headImage" alt=""></span>
@@ -71,36 +69,38 @@
             },
             hideLoading() {
                 this.loading = false;
-            }, handleCommand(command) {
+            }, 
+            // handleCommand(command) {
 
-                if (command === 'logout') {
+                // if (command === 'logout') {
 
-                    // 登录
-                    axios.get('/logout').then(res => {
+                //     // 登录
+                //     axios.get('/logout').then(res => {
 
-                        if (res.data.resultCode === '0') {
+                //         if (res.data.resultCode === '0') {
 
-                            this.$message.warning('登出成功！')
-                            this.$router.push({path: `/login`});
+                //             this.$message.warning('登出成功！')
+                //             this.$router.push({path: `/login`});
 
-                        } else {
+                //         } else {
 
-                            this.$message.warning('登出失败！')
-                            return false
-                        }
+                //             this.$message.warning('登出失败！')
+                //             return false
+                //         }
 
 
-                    })
-                }
-            },
+                //     })
+                // }
+            // },
             loginOut(){
-                this.$axios.post('/api/logout').then(response => {
-                let res = response.data
-                if (res.status == 0) {
-                    this.$message.success('退出成功')
-                    this.$router.push({name:'EndLogin'})
-                }
-                })
+                // this.$axios.post('/logout').then(response => {
+                // let res = response;
+                //     if (res.status == 0) {
+                //         this.$message.success('退出成功')
+                //         this.$router.push({name:'EndLogin'})
+                //     }
+                // })
+                this.$router.push({path: '/select'});
             }
         }
     }

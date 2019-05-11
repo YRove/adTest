@@ -12,7 +12,7 @@
             <div class="marginT20">
                 <router-link to="/frontregister" class="note">注册账号</router-link>
                 <!--<a href="javascript:;">忘记密码？</a>-->
-                <router-link class="note  pull-right" to="/managelogin">科研人员登录</router-link>
+                <router-link class="note  pull-right" to="/select">返回选择其他角色</router-link>
             </div>
         </div>
         <div id="canvas"></div>
@@ -41,17 +41,18 @@ export default {
           username: this.userName,
           password: this.passWord
         }).then(response => {
-          console.log(res);
-          let res = response.data;
-          if (res.code === 200) {
+          let res = response;
+          if (res.data === 'ok') {
             this.$message({
               showClose: true,
               message: '登录成功！',
               type: 'success'
             });
             // 登录成功跳到首页
-            this.$router.push({path: '/aside', name: 'aside'});
-            this.$mySessionStorage.set('currentUser',res.result,'json');
+            this.$router.push({path: '/aside/basePersionalInformation'});
+            this.$alert('请先填写您的个人信息，以便为您提供符合的测试内容', '友情提示', {
+              confirmButtonText: '确定'
+            });
           } else {
             this.$message({
               showClose: true,

@@ -26,12 +26,20 @@
                     <template slot="title"><i class="el-icon-menu"></i>记忆力训练模块</template>
                     <el-menu-item-group>
                         <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-1">记忆力训练</el-menu-item>
+                            <el-menu-item index="2-1">逻辑训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                            <el-menu-item index="2-4">记忆问答</el-menu-item>
                         </router-link>
                     </el-menu-item-group>
                     <el-submenu v-for="(item,index) in data" :key="index" :index="'1'+index">
                         <template slot="title">{{item.transCode}}</template>
-
                         <router-link
                             :to="{path:'/aside/essentialInformation',query:{institutionCode:code,transCode:item.transCode}}">
                             <el-menu-item :index="'2-2'+index">交易基本信息</el-menu-item>
@@ -53,14 +61,33 @@
                 </router-link>
                 <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
                     <el-menu-item index="4">
-                        <template slot="title"><i class="el-icon-star-off"></i>个人基本情况表</template>
+                        <template slot="title"><i class="el-icon-document"></i>个人基本情况表</template>
+                    </el-menu-item>
+                </router-link>
+                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                    <el-menu-item index="5">
+                        <template slot="title"><i class="el-icon-search"></i>试卷成绩</template>
+                    </el-menu-item>
+                </router-link>
+                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                    <el-menu-item index="6">
+                        <template slot="title"><i class="el-icon-edit"></i>统计分析</template>
+                    </el-menu-item>
+                </router-link>
+                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                    <el-menu-item index="7">
+                        <template slot="title"><i class="el-icon-star-off"></i>量表评分规范</template>
+                    </el-menu-item>
+                </router-link>
+                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                    <el-menu-item index="8">
+                        <template slot="title"><i class="el-icon-document"></i>社区卫生中心信息</template>
                     </el-menu-item>
                 </router-link>
             </el-menu>
         </el-aside>
         <router-view></router-view>
     </el-container>
-
 </template>
 
 <script>

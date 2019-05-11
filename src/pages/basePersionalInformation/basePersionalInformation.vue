@@ -168,12 +168,16 @@
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            this.$alert('已分配符合个人情况的测试内容', '提交成功', {
+              confirmButtonText: '确定'
+            });
+            this.$router.push({path: '/aside/adExamOne'});
           } else {
             console.log('error submit!!');
             return false;
           }
         });
+        
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();

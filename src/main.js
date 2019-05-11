@@ -32,7 +32,7 @@ auth.checkAuth()
 
 Vue.prototype.$axios = axios;
 Vue.config.productionTip = false
-axios.defaults.baseURL = 'http://localhost:8080/api'
+axios.defaults.baseURL = 'http://127.0.0.1:3000/api'
 axios.defaults.root = '/api';
 
 

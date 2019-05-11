@@ -1,6 +1,6 @@
 
-const SERVER_URL = 'http://localhost:8081'
-const LOGIN_URL = SERVER_URL + '/user/login'
+const SERVER_URL = 'http://localhost:3000'
+const LOGIN_URL = SERVER_URL + '/login'
 
 export default {
     data: {

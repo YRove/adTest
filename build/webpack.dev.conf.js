@@ -19,7 +19,7 @@ if (argv.DEV_SERVER === 'local') {
     devServer = `http://localhost:${port}/mock/`;
 }
 else {
-    devServer = argv.DEV_SERVER || 'http://127.0.0.1:8080/';
+    devServer = argv.DEV_SERVER || 'http://127.0.0.1:3000/';
 }
 
 if (devServer) {
@@ -47,7 +47,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         disableHostCheck: true,
         proxy: {
             '/api/*': {
-                target: 'http://localhost:8080/',
+                target: 'http://127.0.0.1:3000/',
                 secure: false,
                 changeOrigin: true
             }

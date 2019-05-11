@@ -3,6 +3,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 // 引入组件
 import index from '@/pages/index.vue'
+import select from '@/pages/select/select'
 import basePersionalInformation from '@/pages/basePersionalInformation/basePersionalInformation'
 import articlePath from '@/pages/articlePath/articlePath.vue'
 import managelogin from '@/login/manageLogin'
@@ -166,13 +167,20 @@ const routes = [
         component: FrontRegister
     },
     {
+        path: "/select",
+        name: "select",
+        component: select
+    },
+    {
         path: '/',
-        redirect: 'login'
-    }, {
+        redirect: 'select'
+    },
+    {
         path: "/404",
         name: "notFound",
         component: notFound
-    }, {
+    },
+    {
         path: "*", // 此处需特别注意置于最底部
         redirect: "/404"
     }

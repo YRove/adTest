@@ -1,6 +1,6 @@
 <template>
     <el-main>
-        <div class="el-main-title"><span>交易接口基本信息</span></div>
+        <div class="el-main-title"><span>逻辑训练</span></div>
         <el-form :model="form" ref="form" prop="form" label-width="150px" :rules="rules"
                  class="demo-ruleForm login-container">
             <el-form-item label="交易号" prop="transCode">
