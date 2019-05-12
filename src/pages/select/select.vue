@@ -38,12 +38,12 @@ export default {
         hCareWorkerLogin() {
             // 医护人员登录页面
             this.type = 3;
-            this.$router.push({path: '/managelogin', query: { type: 3 }});
+            this.$router.push({path: '/healthCareLogin', query: { type: 3 }});
         },
         communityUserLogin() {
             // 社区卫生中心人员登录页面
             this.type = 4;
-            this.$router.push({path: '/managelogin', query: { type: 4 }});
+            this.$router.push({path: '/communityLogin', query: { type: 4 }});
         }
 
     }

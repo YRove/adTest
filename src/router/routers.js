@@ -5,26 +5,28 @@ import VueRouter from 'vue-router'
 import index from '@/pages/index.vue'
 import select from '@/pages/select/select'
 import basePersionalInformation from '@/pages/basePersionalInformation/basePersionalInformation'
+import communityMessage from '@/pages/communityMessage/communityMessage'
+import gradeStandard from '@/pages/gradeStandard/gradeStandard'
+import statAnalysis from '@/pages/statAnalysis/statAnalysis'
+import testPaperResult from '@/pages/testPaperResult/testPaperResult'
 import articlePath from '@/pages/articlePath/articlePath.vue'
-import managelogin from '@/login/manageLogin'
+import logicTrain from '@/pages/memoryTrain/logicTrain'
+import eyeTrain from '@/pages/memoryTrain/eyeTrain'
+import memoryExplanation from '@/pages/memoryTrain/memoryExplanation'
+import memoryTimeCapsule from '@/pages/memoryTrain/memoryTimeCapsule'
+import userMessageAdmin from '@/pages/userMessageAdmin/userMessageAdmin'
 import aside from '@/components/aside/index'
 import adExamOne from '@/components/exam/adExamOne'
 import constantValue from '@/components/exam/constantValue'
 import errorCode from '@/components/exam/errorCode'
 import protocol from '@/components/exam/protocol'
 import sequence from '@/components/exam/sequence'
-import newInterface from '@/components/interface/newInterface/newInterface'
-import essentialInformation from '@/components/interface/interfaceAll/essentialInformation'
-import routeConfiguration from '@/components/interface/interfaceAll/routeConfiguration'
-import valiRequest from '@/components/interface/routeConfiguration/valiRequest'
-import valiResponse from '@/components/interface/routeConfiguration/valiResponse'
-import assemble from '@/components/interface/routeConfiguration/assemble'
-import errorMap from '@/components/interface/routeConfiguration/errorMap'
-import parser from '@/components/interface/routeConfiguration/parser'
-import communication from '@/components/interface/routeConfiguration/communication'
+
 import login from '@/login/login'
+import managelogin from '@/login/manageLogin'
+import healthCareLogin from '@/login/healthCareLogin'
+import communityLogin from '@/login/communityLogin'
 import notFound from '@/components/common/404'
-import serverRouteConfiguration from '@/components/interface/interfaceAll/serverRouteConfiguration'
 import FrontRegister from '@/pages/register/register'
 
 
@@ -47,6 +49,12 @@ const routes = [
         path: '/managelogin', name: 'managelogin' , component: managelogin
     },
     {
+        path: '/healthCareLogin', name: 'healthCareLogin' , component: healthCareLogin
+    },
+    {
+        path: '/communityLogin', name: 'communityLogin', component: communityLogin
+    },
+    {
         path: '/aside',name: 'aside',mode: 'history', base: '/ttms/',component: aside,props: true,
         children: [
             {
@@ -57,6 +65,33 @@ const routes = [
             },
             {
                 path: '/aside/basePersionalInformation',component: basePersionalInformation
+            },
+            {
+                path: '/aside/communityMessage',component: communityMessage
+            },
+            {
+                path: '/aside/gradeStandard',component: gradeStandard
+            },
+            {
+                path: '/aside/statAnalysis',component: statAnalysis
+            },
+            {
+                path: '/aside/testPaperResult',component: testPaperResult
+            },
+            {
+                path: '/aside/logicTrain',component: logicTrain
+            },
+            {
+                path: '/aside/eyeTrain',component: eyeTrain
+            },
+            {
+                path: '/aside/memoryExplanation',component: memoryExplanation
+            },
+            {
+                path: '/aside/memoryTimeCapsule',component: memoryTimeCapsule
+            },
+            {
+                path: '/aside/userMessageAdmin',component: userMessageAdmin
             },
             {
                 path: '/aside/articlePath',component: articlePath
@@ -85,76 +120,6 @@ const routes = [
             {
                 path: '/aside/sequence',
                 component: sequence,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/newInterface',
-                component: newInterface,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/essentialInformation',
-                component: essentialInformation,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/routeConfiguration',
-                component: routeConfiguration,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/serverRouteConfiguration',
-                component: serverRouteConfiguration,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/valiRequest',
-                component: valiRequest,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/valiResponse',
-                component: valiResponse,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/assemble',
-                component: assemble,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/errorMap',
-                component: errorMap,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/parser',
-                component: parser,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/communication',
-                component: communication,
                 meta: {
                     requiresAuth: true
                 }

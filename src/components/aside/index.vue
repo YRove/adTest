@@ -25,17 +25,17 @@
                 <el-submenu index="2">
                     <template slot="title"><i class="el-icon-menu"></i>记忆力训练模块</template>
                     <el-menu-item-group>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                        <router-link :to="{path:'/aside/logicTrain',query:{institutionCode:code}}">
                             <el-menu-item index="2-1">逻辑训练</el-menu-item>
                         </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                        <router-link :to="{path:'/aside/eyeTrain',query:{institutionCode:code}}">
                             <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
                         </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
+                        <router-link :to="{path:'/aside/memoryExplanation',query:{institutionCode:code}}">
                             <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
                         </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-4">记忆问答</el-menu-item>
+                        <router-link :to="{path:'/aside/memoryTimeCapsule',query:{institutionCode:code}}">
+                            <el-menu-item index="2-4">记忆时间囊</el-menu-item>
                         </router-link>
                     </el-menu-item-group>
                     <el-submenu v-for="(item,index) in data" :key="index" :index="'1'+index">
@@ -64,22 +64,22 @@
                         <template slot="title"><i class="el-icon-document"></i>个人基本情况表</template>
                     </el-menu-item>
                 </router-link>
-                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                <router-link :to="{path:'/aside/testPaperResult',query:{institutionCode:code}}">
                     <el-menu-item index="5">
                         <template slot="title"><i class="el-icon-search"></i>试卷成绩</template>
                     </el-menu-item>
                 </router-link>
-                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                <router-link :to="{path:'/aside/statAnalysis',query:{institutionCode:code}}">
                     <el-menu-item index="6">
                         <template slot="title"><i class="el-icon-edit"></i>统计分析</template>
                     </el-menu-item>
                 </router-link>
-                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                <router-link :to="{path:'/aside/gradeStandard',query:{institutionCode:code}}">
                     <el-menu-item index="7">
                         <template slot="title"><i class="el-icon-star-off"></i>量表评分规范</template>
                     </el-menu-item>
                 </router-link>
-                <router-link :to="{path:'/aside/basePersionalInformation',query:{institutionCode:code}}">
+                <router-link :to="{path:'/aside/communityMessage',query:{institutionCode:code}}">
                     <el-menu-item index="8">
                         <template slot="title"><i class="el-icon-document"></i>社区卫生中心信息</template>
                     </el-menu-item>
@@ -114,17 +114,8 @@
                 <el-submenu index="2">
                     <template slot="title"><i class="el-icon-menu"></i>用户信息管理</template>
                     <el-menu-item-group>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-1">逻辑训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-4">记忆问答</el-menu-item>
+                        <router-link :to="{path:'/aside/userMessageAdmin',query:{institutionCode:code}}">
+                            <el-menu-item index="2-1">用户信息管理</el-menu-item>
                         </router-link>
                     </el-menu-item-group>
                     <el-submenu v-for="(item,index) in data" :key="index" :index="'1'+index">
@@ -173,17 +164,8 @@
                 <el-submenu index="2">
                     <template slot="title"><i class="el-icon-menu"></i>用户信息管理</template>
                     <el-menu-item-group>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-1">逻辑训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-4">记忆问答</el-menu-item>
+                        <router-link :to="{path:'/aside/userMessageAdmin',query:{institutionCode:code}}">
+                            <el-menu-item index="2-1">用户信息管理</el-menu-item>
                         </router-link>
                     </el-menu-item-group>
                 </el-submenu>
@@ -217,17 +199,8 @@
                 <el-submenu index="2">
                     <template slot="title"><i class="el-icon-menu"></i>社区用户信息管理</template>
                     <el-menu-item-group>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-1">逻辑训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-2">眼力游戏训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-3">记忆法讲解及训练</el-menu-item>
-                        </router-link>
-                        <router-link :to="{path:'/aside/newInterface',query:{institutionCode:code}}">
-                            <el-menu-item index="2-4">记忆问答</el-menu-item>
+                        <router-link :to="{path:'/aside/userMessageAdmin',query:{institutionCode:code}}">
+                            <el-menu-item index="2-1">用户信息管理</el-menu-item>
                         </router-link>
                     </el-menu-item-group>
                     <el-submenu v-for="(item,index) in data" :key="index" :index="'1'+index">
