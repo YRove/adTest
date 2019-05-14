@@ -20,5 +20,10 @@ var sqlMap = {
         select_name: 'SELECT * from community_user where username = ?',    //查询 username
         select_password: 'SELECT * from community_user where password = ?'      //查询 password
     },
+    baseInformation: {
+        add: 'insert into baseInformation(id, name, sex, age, telp, education, community, type, isMotion, isSmoke, isDrink, isMemoryDown, ill) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+        select_id: 'SELECT * from baseInformation where id = ?',    //查询 id
+        select_name: 'SELECT * from baseInformation where name = ?'      //查询 name
+    },
 }
 module.exports = sqlMap;

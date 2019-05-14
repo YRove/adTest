@@ -1,135 +1,178 @@
 <template>
-  <div class="exam">
-    <div class="exam-title">
-        <h3 class="text-center marginT10">{{paperData.name}}</h3>
-        <div class="text-center marginT10">考试时长：{{paperData.time}}分钟  总分：{{paperData.totalPoints}}分</div>
-    </div>
-    <div class="submit-box" ref="submitBox">
-        <el-button @click="submit" type="primary" class="submit-btn">提交试卷</el-button>
-        <div class="timeout">
-            <p>距离考试结束</p>
-            <p>{{time}}</p>
+    <el-main>
+        <div v-if="!isShow">
+            <div class="el-main-title"><span>是否参加考试</span></div>
+            <div label-width="100px" class=" form-border">
+                <div class="title">试卷1: 早期记忆能力检测试卷</div>
+                <div class="rule">
+                    <ul>
+                        <li v-for="(item,index) in rules" :key="item.id">
+                            {{index+1}}.{{item}}
+                        </li>
+                    </ul>
+                </div>
+                <div class="button-wrapper">
+                    <el-button type="primary" size="small" @click="immedAttend" class="loginBtn">立即参加</el-button>
+                    <el-button type="warning" size="small" @click="tempAttend" class="loginBtn">暂不参加</el-button>
+                </div>
+            </div>
         </div>
-    </div>
-    <div class="main">
-        <div class="single" v-if="singleQuestions.length>0">
-            <h3>一、单选题（只有一个正确答案）</h3>
-            <ul class="question-item">
-            <li class="marginB10" v-for="(item,index) in singleQuestions" :key="item.id">
-                <p class="question-title">{{index+1}} 、{{item.name}}</p>
+        <div class="exam" v-else-if="isShow">
+            <div class="exam-title">
+                <h3 class="text-center marginT10">{{paperData.name}}</h3>
+                <div class="text-center marginT10">考试时长：{{paperData.time}}分钟  总分：{{paperData.totalPoints}}分</div>
+            </div>
+            <div class="submit-box" ref="submitBox">
+                <el-button @click="submit" type="primary" class="submit-btn">提交试卷</el-button>
+                <div class="timeout">
+                    <p>距离考试结束</p>
+                    <p>{{time}}</p>
+                </div>
+            </div>
+            <div class="main">
+                <div class="multi" v-if="multiQuestions.length>0">
+                    <h3 class="paddingB10">一、定向题</h3>
+                    <ul class="question-item">
+                        <li class="marginB10 marginL60" v-for="(item,index) in multiQuestions" :key="'multi' + index">
+                            <p class="question-title">{{index+1}} 、{{item.name}}</p>
+                            <el-input v-model="item.answer" class="direction_input"></el-input>
+                        </li>
+                    </ul>
+                </div>
+                <div class="single" v-if="singleQuestions.length>0">
+                    <h3 class="paddingB10">二、单选题（只有一个正确答案）</h3>
+                    <ul class="question-item">
+                        <li class="marginB10 marginL60" v-for="(item,index) in singleQuestions" :key="'single:'+index">
+                            <p class="question-title">{{index+1}} 、{{item.name}}</p>
 
-                <span class="option"
-                    v-if="item.type!='judgement'&&item.type!='Q&A'"item
-                    v-for="(item1,index1) in item.selection" :key="item1.id">
-                    <el-radio v-model="item.sanswer" :label="options[index1]" :key="index1">
-                    {{options[index1]}}、{{item1}}
-                    </el-radio>
+                            <span class="option"
+                                v-for="(item1,index1) in item.selection" :key="'option:' + index1">
+                                <el-radio v-model="item.answer" :label="options[index1]" :key="index1">
+                                {{options[index1]}}、{{item1}}
+                                </el-radio>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="judge" v-if="judgeQuestions.length>0">
+                    <h3 class="paddingB10">三、判断题</h3>
+                    <ul class="question-item">
+                    <li class="marginB10 marginL60" v-for="(item,index) in judgeQuestions" :key="'judge:' + index">
+                        <p class="question-title">{{index+1}} 、{{item.name}}</p>
+                        <el-radio v-model="item.answer" label="A" :key="'y:'+index">是</el-radio>
+                        <el-radio v-model="item.answer" label="B" :key="'n'+index">否</el-radio>
+                    </li>
+                    </ul>
+                </div>
+                <div class="judge" v-if="QAQuestions.length>0">
+                    <h3 class="paddingB10">四、简答题</h3>
+                    <ul class="question-item">
+                    <li class="marginB10 marginL60" v-for="(item,index) in QAQuestions" :key="'qa:' + index">
+                        <p class="question-title">{{index+1}} 、{{item.name}}</p>
+                        <el-input
+                        class="textarea"
+                        type="textarea"
+                        :rows="3"
+                        placeholder="请输入内容"
+                        v-model="item.answer">
+                        </el-input>
+                    </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="scroll_top" @click="scrollTop" v-if="scroll>500">
+                <i class="el-icon-caret-top"></i>
+            </div>
+
+            <el-dialog
+            title="提示"
+            :visible.sync="dialogVisible"
+            width="30%"
+            >
+                <span>这是一段信息</span>
+                <span slot="footer" class="dialog-footer">
+                    <el-button @click="dialogVisible = false">取 消</el-button>
+                    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
                 </span>
-            </li>
-            </ul>
+            </el-dialog>
         </div>
-        <div class="multi" v-if="multiQuestions.length>0">
-            <h3>二、多选题（有多个正确答案）</h3>
-            <ul class="question-item">
-            <li class="marginB10" v-for="(item,index) in multiQuestions" :key="item.id">
-                <p class="question-title">{{index+1}} 、{{item.name}}</p>
-
-                <span class="option"
-                    v-if="item.type!='judgement'&&item.type!='Q&A'"item
-                    v-for="(item1,index1) in item.selection" :key="item1.id">
-                <el-checkbox v-model="item.sanswer" :label="options[index1]" :key="index1">
-                {{options[index1]}}、{{item1}}
-                </el-checkbox>
-                </span>
-            </li>
-            </ul>
-        </div>
-        <div class="judge" v-if="judgeQuestions.length>0">
-            <h3>三、判断题</h3>
-            <ul class="question-item">
-            <li class="marginB10" v-for="(item,index) in judgeQuestions" :key="item.id">
-                <p class="question-title">{{index+1}} 、{{item.name}}</p>
-                <el-radio v-model="item.sanswer" label="A" :key="index">正确</el-radio>
-                <el-radio v-model="item.sanswer" label="B" :key="index">错误</el-radio>
-            </li>
-            </ul>
-        </div>
-        <div class="judge" v-if="QAQuestions.length>0">
-            <h3>四、简答题</h3>
-            <ul class="question-item">
-            <li class="marginB10" v-for="(item,index) in QAQuestions" :key="item.id">
-                <p class="question-title">{{index+1}} 、{{item.name}}</p>
-                <el-input
-                class="textarea"
-                type="textarea"
-                :rows="3"
-                placeholder="请输入内容"
-                v-model="item.sanswer">
-                </el-input>
-            </li>
-            </ul>
-        </div>
-    </div>
-    <div class="scroll_top" @click="scrollTop" v-if="scroll>500">
-        <i class="el-icon-caret-top"></i>
-    </div>
-
-    <el-dialog
-      title="提示"
-      :visible.sync="dialogVisible"
-      width="30%"
-      >
-        <span>这是一段信息</span>
-        <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
-        </span>
-    </el-dialog>
-  </div>
+    </el-main>
 </template>
 <script type="text/ecmascript-6">
   export default{
     data(){
-      return {
-        id: '',
-        dialogVisible: false,
-        paperData:{
-            name:'早期记忆能力检测试卷',
-            time:'60',
-            totalPoints:''
-        },
-        startTime:'',
-        nowTime: '',
-        examTime: '60',
-        timer: null,
-        singleQuestions:[{name: 'lala',type: 'judgement',sanswer: 'cnjacnlacj',selection: ['a','b','c']}],
-        multiQuestions:[{name: 'aaa',type: 'judgement',sanswer: 'cnjacnlacj',selection: ['a','b','c']}],
-        QAQuestions:[],
-        judgeQuestions:[{name: 'aaa',type: 'judgement',sanswer: ''}],
-        options:['A','B','C','D','E','F','G','H','I','J','K',
-          'L','M','N','O','P','Q','R','S','T'],
-        scroll: document.body.scrollTop
-      }
+        return {
+            isShow: false,
+            id: '',
+            direction: {
+                name: '',
+            },
+            dialogVisible: false,
+            paperData:{
+                name:'早期记忆能力检测试卷',
+                time:'15',
+                totalPoints:'30'
+            },
+            code: 0,
+            startTime:'',
+            nowTime: '',
+            examTime: '900',
+            timer: null,
+            singleQuestions:[
+                {name: '100 - 7 等于多少？',type: 'judgement',answer: '',selection: ['91', '92', '93', '94']},
+                {name: '上题中结果再减去7等于多少？',type: 'judgement',answer: '',selection: ['85', '84', '83', '82']},
+                {name: '上题中结果再减去7等于多少？',type: 'judgement',answer: '',selection: ['77', '78', '79', '80']}
+            ],
+            multiQuestions:[
+                {name: '你叫什么名字？', answer: ''},
+                {name: '现在是几月？', answer: ''},
+                {name: '今天是几号？', answer: ''},
+                {name: '现在是哪一年？', answer: ''},
+                {name: '今天是星期几？', answer: ''},
+                {name: '现在是什么季节？', answer: ''},
+                {name: '现在几点了？', answer: ''},
+                {name: '2 + 4是多少？',answer: ''}
+            ],
+            QAQuestions:[
+                {name: '请对下列词语进行描述：花，沙发，哨子', answer: ''},
+                {name: '请复述这句话（正确敲写出即可）：瑞雪兆丰年', answer: ''},
+                {name: '请写下您知道的蔬菜的名称', answer: ''},
+            ],
+            judgeQuestions:[{name: '所给数字中是否有N？MMMMMMMMMMMMMMMMMMMNMMMMMMMMMMMMM',type: 'judgement',answer: ''}],
+            options:['A','B','C','D','E','F','G','H','I','J','K',
+                'L','M','N','O','P','Q','R','S','T'],
+            scroll: document.body.scrollTop,
+            rules:[
+                '请在放松舒适的状态下，耐心答完试卷',
+                '请不要参考其他人答案，或向他人求助',
+                '如有任何疑问，欢迎您到留言区留言',
+                '若出现意外情况（如停电、机器故障等），重新登录系统即可',
+                '请用现行规范的语言文字进行答题',
+                '答题不能“飞檐走壁”，请将每道题填写的答案写在对应的题号下，答案可随时更改',
+                '敲重点，请诚信考试'
+            ],
+            total: 5
+        }
     },
-    computed:{
-      time:function(){
-        let time = this.examTime;
-        let hour = 0;
-        let mm = 0;
-        let ss = 0;
-        hour = Math.floor(time / 3600);
-        mm = Math.floor((time / 60 % 60));
-        ss = Math.floor((time % 60));
-        return  `${hour}小时${mm}分钟${ss}秒`;
-      }
+    computed: {
+        time() {
+            let time = this.examTime;
+            let hour = 0;
+            let mm = 0;
+            let ss = 0;
+            hour = Math.floor(time / 3600);
+            mm = Math.floor((time / 60 % 60));
+            ss = Math.floor((time % 60));
+            return  `${hour}小时${mm}分钟${ss}秒`;
+        }
     },
     watch: {
         time(curVal, oldVal) {
-        if(curVal == "小时分钟秒"){
-            this.$message.error('考试时间到，强制提交!');
-            let isMust = true;
-            this.submit(isMust);
-        }
+            if(curVal == "小时分钟秒"){
+                this.$message.error('考试时间到，强制提交!');
+                let isMust = true;
+                this.submit(isMust);
+            }
         }
     },
     mounted(){
@@ -137,254 +180,251 @@
         this.id = this.$route.params.id;
         // this.startTime = new Date();
         //   this.init();
-        window.addEventListener('scroll', this.handleScroll);
+        //监听滚动事件
+        // window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy(){
         window.removeEventListener('scroll', this.handleScroll);
     },
     methods:{
-      /**
-       * 初始化
-       */
-      init(){
-        if(this.id == '' || !this.id ){
-            this.$router.push({path:'forntexamindex'});
-            return
-        } else {
+        init(){
+            //初始化界面
             this.$axios.get('/api/getExamInfo',{
             params:{
-                id: this.id
+                id: $route.query.id
             }
             }).then(response => {
             let res = response.data;
             if(res.status == '0') {
-                for(let key in this.paperData) {
-                    this.paperData[key] = res.result[key];
-                }
                 this.startTime = res.result.startTime;
-                this.examTime = this.paperData.time*60 - ((this.nowTime - new Date(this.startTime))/1000);
+                this.examTime = this.paperData.time * 60 - ((this.nowTime - new Date(this.startTime))/1000);
                 if(this.examTime <= 0){
-                this.$message.error('考试时间已过!');
-                this.$router.go(-1);
+                    this.$message.error('考试时间已过!');
+                    this.$router.go(-1);
                 }
                 this.getCode();
-                // this.timeOut();
-                res.result._questions.forEach(item => {
-                if(item.type=='single'){
-                    item.sanswer = '';
-                    this.singleQuestions.push(item);
-                } else if(item.type == 'multi'){
-                    item.sanswer = [];
-                    this.multiQuestions.push(item);
-                } else if(item.type == 'Q&A') {
-                    item.sanswer = '';
-                    this.QAQuestions.push(item);
-                } else if(item.type == 'judgement'){
-                    item.sanswer = '';
-                    this.judgeQuestions.push(item);
-                }
-                })
+                
             }
             }).catch(err => {
-            this.$message.error(err);
+                this.$message.error(err);
             })
-        }
-      },
-      /**
-       * 回到顶部
-       * @return {[type]} [description]
-       */
-      scrollTop(){
-        let timer = setInterval(() => {
-          let top = document.body.scrollTop || document.documentElement.scrollTop;
-          let speed = Math.ceil(top / 5);
-          document.body.scrollTop = top - speed;
-          if (top === 0) {
-            clearInterval(timer);
-          }
-        }, 20)
-      },
-      getCode(){
-        const TIME_COUNT = this.examTime;
-        if (!this.timer) {
-          this.timer = setInterval(() => {
-            if (this.examTime > 0 && this.examTime <= TIME_COUNT) {
-              this.examTime--;
+        },
+        scrollTop(){
+            //回到顶部
+            let timer = setInterval(() => {
+                let top = document.body.scrollTop || document.documentElement.scrollTop;
+                let speed = Math.ceil(top / 5);
+                document.body.scrollTop = top - speed;
+                if (top === 0) {
+                clearInterval(timer);
+                }
+            }, 20)
+        },
+        handleScroll(){
+            this.scroll = document.body.scrollTop;
+            if(this.scroll>250) {
+                this.$refs.submitBox.style.top = 10+'px';
             } else {
-              clearInterval(this.timer);
-              this.timer = null;
+                setTimeout(() => {
+                    this.$refs.submitBox.style.top = 250+'px';
+                }, 0)
+                // this.$nextTick(() => {
+                    
+                // })
             }
-          }, 1000)
-        }
-      },
-      handleScroll(){
-        this.scroll = document.body.scrollTop;
-        if(this.scroll>250) {
-          this.$refs.submitBox.style.top=10+'px';
-        } else {
-          this.$refs.submitBox.style.top=250+'px';
-        }
-      },
-      /**
-       * 提交试卷
-       * @return {[type]} [description]
-       */
-      submit(isMust){
-        let isAllAnswer = true;
-        let single = true;
-        let mutil = true;
-        let judge = true;
-        let QA = true;
-        this.singleQuestions.some((item) => {
-          single = !item.sanswer == '';
-        })
-        this.multiQuestions.some((item) => {
-          mutil = !item.sanswer.length == 0;
-        })
-        this.judgeQuestions.some((item) => {
-          judge = !item.sanswer == '';
-        })
-        this.QAQuestions.some((item) => {
-          QA = !item.sanswer == '';
-        })
-        if(single&&mutil&&judge&&QA){
-          isAllAnswer = true;
-        } else {
-          isAllAnswer = false;
-        }
-        console.log(isAllAnswer,isMust);
-        if(isAllAnswer === false && isMust !== true){
-          this.$message.warning('考试时间未到，请完成所有题目!');
-        } else {
-          let score = 0; // 得分
-          let answers = [];
-          this.singleQuestions.forEach(item => {
-            if(item.sanswer === item.answer){
-              score += item.score;
+        },
+        getCode(){
+            //计算所得分数
+            console.log('计算分数');
+        },
+        immedAttend() {
+            //立即参加考试，此时开始计时进行考试, 考试时间到了，跳转到试卷成绩页面。
+            this.isShow = true;
+            let clock = window.setInterval(() => {
+                this.examTime--;
+                if (this.examTime == 0) {
+                    window.clearInterval(clock);
+                    // this.$alert('正在为您计算试卷成绩及统计分析，5s后为您跳转到试卷成绩页面', '提交试卷', {
+                    //     confirmButtonText: '确定'
+                    // });
+                    const h = this.$createElement;
+                    this.$notify({
+                        title: '提交试卷',
+                        message: h('i', { style: 'color: teal'}, '正在为您计算试卷成绩及统计分析，5s后为您跳转到试卷成绩页面!')
+                    });
+                    let jump = window.setInterval(() => {
+                        this.total--;
+                        if (this.total == 0) {
+                            window.clearInterval(jump);
+                            this.$router.push({path: '/aside/testPaperResult'});
+                        }
+                    },1000)
+                    
+                }
+            },1000)
+
+        },
+        tempAttend() {
+            //暂不参加考试
+            this.$router.push({path: '/aside/articlePath'})
+        },
+        submit(isMust){
+            //判断是否提前交卷
+            if(this.examTime >= 0){
+                this.$confirm('是否提前交卷？', '友情提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                }).then(() => {
+                    //点击确定时执行的代码，此时判断答案是否正确
+
+                    // this.getCode();
+                    // this.submitApi(score,answers);
+                    alert(1);
+                }).catch(()=>{
+                    this.$message({
+                    type: 'info',
+                    message: '已取消操作'
+                    });
+                })
             }
-          });
-          this.multiQuestions.forEach(item => {
-            let answer = item.answer.split(',');
-            if(answer.equals(item.sanswer)){
-              score += item.score;
-            }
-          });
-          this.judgeQuestions.forEach((item) => {
-            if(item.sanswer === item.answer){
-              score += item.score;
-            }
-          })
-          if(this.QAQuestions.length > 0) {
-            this.QAQuestions.forEach(item => {
-              answers.push({
-                _question: item._id,
-                answer: item.sanswer
-              })
+        },
+        /**@argument score answers
+         * 提交试卷api请求
+         */
+        submitApi(score,answers){
+            this.$axios.post('/api/submitExam',{
+                id: this.id,
+                score: score,
+                answers: answers,
+                startTime: this.startTime
+            }).then(response => {
+                let res = response.data;
+                if(res.status == '0') {
+                this.$message.success('提交成功!');
+                this.$router.push({path:'frontstudentinfo'});
+                }
+            }).catch(err => {
+                this.$message.error('提交失败，请联系老师!');
             })
-          }
-          if(isMust === true){
-            this.submitApi(score,answers);
-          } else {
-            this.$confirm('是否提前交卷？', '提示', {
-              confirmButtonText: '确定',
-              cancelButtonText: '取消',
-            }).then(() => {
-              this.submitApi(score,answers);
-            }).catch(()=>{
-              this.$message({
-                type: 'info',
-                message: '已取消操作'
-              });
-            })
-          } 
-        } 
-      },
-      /**@argument score answers
-       * 提交试卷api请求
-       */
-      submitApi(score,answers){
-        this.$axios.post('/api/submitExam',{
-          id: this.id,
-          score: score,
-          answers: answers,
-          startTime: this.startTime
-        }).then(response => {
-          let res = response.data;
-          if(res.status == '0') {
-            this.$message.success('提交成功!');
-            this.$router.push({path:'frontstudentinfo'});
-          }
-        }).catch(err => {
-          this.$message.error('提交失败，请联系老师!');
-        })
-      }
+        }
     }
   }
 </script>
 <style scoped rel="stylesheet/scss" lang="scss">
-  .exam{
-    padding: 20px 0;
+    .el-main{
+        height: 100%;
+        overflow-y: auto;
+        background-color: #f5f7fa;
+        padding: 0;
+        &-title {
+            font-size: 16px;
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            text-align: left;
+            background-color: #fafbfc;
+            border-bottom: 3px solid #ebf0f3;
+            span {
+                padding-left: 60px;
+            }
+        }
+        .button-wrapper {
+            margin-left: 600px;
+        }
+        .form-border {
+            border: 1px solid #ccc;
+            margin: 40px 100px;
+            padding: 20px;
+            background: #fff;
+            .title {
+                font-size: 22px;
+            }
+            .rule {
+                margin: 50px auto;
+                padding: 10px;
+                width: 800px;
+                font-size: 14px;
+                border: 1px solid #eeeeee;
+                border-radius: 10px;
+                background: #fff;
+                box-shadow: 3px 3px 3px rgba(0, 0, 0, 0.05);
+                ul {
+                    li {
+                        margin-bottom: 5px;
+                    }
+                }
+            }
+        }
+        .exam{
 
-    .exam-title {
-        width: 300px;
-        margin-left: 45%;
-        padding: 10px;
-        border: 1px solid #ccc;
-        box-shadow: 5px 5px 5px #ccc;
+            .direction_input {
+                width: 400px;
+                margin-left: 40px;
 
-    }
+            }
 
-    .main{
-      padding: 20px 40px;
-      .question-title{
-        font-size: 16px;
-        margin-bottom: 5px;
-      }
-      .option{
-        display: block;
-        margin:5px 0 0 15px;
-      }
-      .question-item{
-        margin-left: 15px;
-      }
-      .textarea{
-        width: 500px;
-      }
+            .exam-title {
+                width: 300px;
+                margin-left: 15%;
+                padding: 10px;
+                margin-top: 30px; 
+                border: 1px solid #ccc;
+                box-shadow: 5px 5px 5px #ccc;
+
+            }
+
+            .main{
+                padding: 20px 40px;
+                .question-title{
+                    font-size: 16px;
+                    margin-bottom: 5px;
+                }
+                .option{
+                    display: block;
+                    margin:5px 0 0 15px;
+                }
+                .question-item{
+                    margin-left: 15px;
+                }
+                .textarea{
+                    width: 500px;
+                }
+            }
+            .scroll_top{
+                background-color: #fff;
+                position: fixed;
+                right: 100px;
+                bottom: 150px;
+                width: 40px;
+                height: 40px;
+                border-radius: 20px;
+                cursor: pointer;
+                transition: .3s;
+                box-shadow: 0 0 6px rgba(0,0,0,.12);
+                z-index: 5;
+                i{
+                color: #409eff;
+                display: block;
+                line-height: 40px;
+                text-align: center;
+                font-size: 18px;
+                }
+            }
+            .submit-box{
+                position: fixed;
+                right: 30px;
+                padding: 30px;
+                transition: 1s;
+                text-align: center;
+                border: 1px solid #ffffff;
+                box-shadow: 1px 1px 1px #c5c5c5;
+                background: rgba(193, 193, 193, 0.1);
+                border-radius: 20px;
+                .timeout{
+                margin-top: 10px;
+                text-align: center;
+                }
+            }
+        }
     }
-    .scroll_top{
-      background-color: #fff;
-      position: fixed;
-      right: 100px;
-      bottom: 150px;
-      width: 40px;
-      height: 40px;
-      border-radius: 20px;
-      cursor: pointer;
-      transition: .3s;
-      box-shadow: 0 0 6px rgba(0,0,0,.12);
-      z-index: 5;
-      i{
-        color: #409eff;
-        display: block;
-        line-height: 40px;
-        text-align: center;
-        font-size: 18px;
-      }
-    }
-    .submit-box{
-      position: fixed;
-      right: 30px;
-      padding: 30px;
-      transition: 1s;
-      text-align: center;
-      border: 1px solid #ffffff;
-      box-shadow: 1px 1px 1px #c5c5c5;
-      background: rgba(193, 193, 193, 0.1);
-      border-radius: 20px;
-      .timeout{
-        margin-top: 10px;
-        text-align: center;
-      }
-    }
-  }
 </style>

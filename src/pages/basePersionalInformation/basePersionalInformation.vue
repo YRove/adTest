@@ -118,7 +118,8 @@
             isMotion: '',
             isSmoke: '',
             isDrink: '',
-            isMemoryDown: ''
+            isMemoryDown: '',
+            itemId: ''
         },
         rules: {
           name: [
@@ -165,23 +166,62 @@
       };
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$alert('已分配符合个人情况的测试内容', '提交成功', {
-              confirmButtonText: '确定'
-            });
-            this.$router.push({path: '/aside/adExamOne'});
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-        
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        submitForm(formName) {
+            this.$refs[formName].validate((valid) => {
+                if (valid) {
+                    this.ruleForm.itemId = this.$route.query.id;
+                    this.$axios.post('/baseInformation',{
+                        id: parseInt(this.ruleForm.itemId),
+                        name: this.ruleForm.name,
+                        type: this.ruleForm.type,
+                        ill: this.ruleForm.ill,
+                        sex: this.ruleForm.sex,
+                        desc: this.ruleForm.desc,
+                        age: this.ruleForm.age,
+                        telp: this.ruleForm.telp,
+                        education: this.ruleForm.education,
+                        community: this.ruleForm.community,
+                        isMotion: this.ruleForm.isMotion,
+                        isSmoke: this.ruleForm.isSmoke,
+                        isDrink: this.ruleForm.isDrink,
+                        isMemoryDown: this.ruleForm.isMemoryDown,
+                    }).then(response => {
+                        let res = response.data;
+                        this.itemId = res.data.id;
+                        if (res.message == 'ok') {
+                            this.$message({
+                                showClose: true,
+                                message: '登录成功！',
+                                type: 'success'
+                            });
+                            this.$alert('已分配符合个人情况的测试内容', '提交成功', {
+                                confirmButtonText: '确定'
+                            });
+                            this.$router.push({path: '/aside/adExamOne'});
+                        } else {
+                            this.$message({
+                                showClose: true,
+                                message: 'error!!',
+                                type: 'warning'
+                            });
+                            this.password = ''
+                        }
+                    }).catch(err => {
+                        this.$message({
+                            showClose: true,
+                            message: 'error submit!!',
+                            type: 'warning'
+                        });
+                    })
+                } else {
+                    console.log('请填写信息');
+                    return false;
+                }
+            });    
+        },
+        resetForm(formName) {
+            this.$refs[formName].resetFields();
+        }
     }
   }
 </script>

@@ -17,17 +17,20 @@ import memoryTimeCapsule from '@/pages/memoryTrain/memoryTimeCapsule'
 import userMessageAdmin from '@/pages/userMessageAdmin/userMessageAdmin'
 import aside from '@/components/aside/index'
 import adExamOne from '@/components/exam/adExamOne'
-import constantValue from '@/components/exam/constantValue'
-import errorCode from '@/components/exam/errorCode'
-import protocol from '@/components/exam/protocol'
-import sequence from '@/components/exam/sequence'
+import questionManage from '@/pages/questionManage/questionManage'
 
 import login from '@/login/login'
 import managelogin from '@/login/manageLogin'
 import healthCareLogin from '@/login/healthCareLogin'
 import communityLogin from '@/login/communityLogin'
-import notFound from '@/components/common/404'
 import FrontRegister from '@/pages/register/register'
+
+import notFound from '@/components/common/404'
+
+import constantValue from '@/components/exam/constantValue'
+import errorCode from '@/components/exam/errorCode'
+import protocol from '@/components/exam/protocol'
+import sequence from '@/components/exam/sequence'
 
 
 // 要告诉 vue 使用 vueRouter
@@ -95,6 +98,9 @@ const routes = [
             },
             {
                 path: '/aside/articlePath',component: articlePath
+            },
+            {
+                path: '/aside/questionManage', component: questionManage
             },
             {
                 path: '/aside/constantValue',

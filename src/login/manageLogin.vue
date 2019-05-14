@@ -28,7 +28,8 @@ export default {
             userName: '',
             passWord: '',
             type: 0,
-            logoSrc: require('@/assets/img/logo.png')
+            logoSrc: require('@/assets/img/logo.png'),
+            itemId: ''
         }
     },
     methods: {
@@ -46,15 +47,17 @@ export default {
                     username: this.userName,
                     password: this.passWord,
                     type: this.type
-                }).then(res => {
-                    if (res.data == 'ok') {
+                }).then(response => {
+                    var res = response.data;
+                    this.itemId = res.data.id;
+                    if (res.message == 'ok') {
                         this.$message({
                             showClose: true,
                             message: '登录成功！',
                             type: 'success'
                         });
                         // 登录成功跳到首页
-                        this.$router.push({path: '/aside', query: {type: this.type}});
+                        this.$router.push({path: '/aside', query: {type: this.type, id: this.itemId}});
                     } else {
                         this.$message({
                         showClose: true,

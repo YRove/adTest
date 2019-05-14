@@ -28,7 +28,8 @@ export default {
             userName: '',
             passWord: '',
             logoSrc: require('@/assets/img/logo1.png'),
-            type: 0
+            type: 0,
+            itemId: ''
         }
     },
     methods: {
@@ -46,27 +47,28 @@ export default {
                 username: this.userName,
                 password: this.passWord,
                 type: this.type
-            }).then(response => {
-                let res = response;
-                if (res.data === 'ok') {
-                    this.$message({
-                        showClose: true,
-                        message: '登录成功！',
-                        type: 'success'
-                    });
-                    // 登录成功跳到首页
-                    this.$router.push({path: '/aside/basePersionalInformation', query: {type: this.type}});
-                    this.$alert('请先填写您的个人信息，以便为您提供符合的测试内容', '友情提示', {
-                        confirmButtonText: '确定'
-                    });
-                } else {
-                    this.$message({
-                        showClose: true,
-                        message: '用户名或密码错误！',
-                        type: 'warning'
-                    });
-                    this.password = ''
-                }
+                }).then(response => {
+                    let res = response.data;
+                    this.itemId = res.data.id;
+                    if (res.message == 'ok') {
+                        this.$message({
+                            showClose: true,
+                            message: '登录成功！',
+                            type: 'success'
+                        });
+                        // 登录成功跳到首页
+                        this.$router.push({path: '/aside/basePersionalInformation', query: {type: this.type, id: this.itemId}});
+                        this.$alert('请先填写您的个人信息，以便为您提供符合的测试内容', '友情提示', {
+                            confirmButtonText: '确定'
+                        });
+                    } else {
+                        this.$message({
+                            showClose: true,
+                            message: '用户名或密码错误！',
+                            type: 'warning'
+                        });
+                        this.password = ''
+                    }
                 }).catch(err => {
                     this.$message({
                         showClose: true,
