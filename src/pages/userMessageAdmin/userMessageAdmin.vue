@@ -1,94 +1,113 @@
 <template>
     <el-main>
         <div class="el-main-title"><span>用户信息管理</span></div>
-        <div :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class=" form-border">
-            <div>用户信息管理</div>
+            <div class="Message-search">
+                <el-autocomplete
+                v-model="state"
+                :fetch-suggestions="querySearchAsync"
+                placeholder="请输入内容"
+                @select="handleSelect"
+            >
+                <template slot="prepend" icon="el-icon-search">信 息 查 询 <i class="el-icon-search"></i></template>
+            </el-autocomplete>
+            </div>
+            
+        <!-- <div label-width="100px" class="form-border-search">
+            <div>查询结果</div>
+            <div>{{state}}</div>
+        </div> -->
+        <div>
+            <el-table :data="data" border>
+                <el-table-column prop="name" label="姓名">
+                    <template slot-scope="scope">
+                        <div>
+                            {{data[scope.$index].name}}
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="testNum" label="所做测试题次数">
+                    <template slot-scope="scope">
+                        <div>
+                            共{{data[scope.$index].testNum}}次
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="aveIndex" label="试卷的平均得分指数">
+                    <template slot-scope="scope">
+                        <div>
+                            {{data[scope.$index].aveIndex}}%
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="wholeTime" label="公用时长总和">
+                    <template slot-scope="scope">
+                        <div>
+                            {{data[scope.$index].wholeTime}}分钟
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="inclination" label="患病倾向">
+                    <template slot-scope="scope">
+                        <div>
+                            {{data[scope.$index].inclination}}
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>
         </div>
     </el-main>
 </template>
 <script>
-  export default {
+export default {
     data() {
-      return {
-        ruleForm: {
-            name: '',
-            type: [],
-            ill: [],
-            sex: '',
-            desc: '',
-            age: '',
-            telp: '',
-            education: '',
-            community: '',
-            isMotion: '',
-            isSmoke: '',
-            isDrink: '',
-            isMemoryDown: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入您的名字', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请选择您患有的慢性病症或无', trigger: 'change' }
-          ],
-          ill: [
-            { type: 'array', required: true, message: '请选择您患有的影响认知功能疾病史或无', trigger: 'change' }
-          ],
-          sex: [
-            { required: true, message: '请选择您的性别', trigger: 'change' }
-          ],
-          age: [
-            { required: true, message: '请输入您的年龄', trigger: 'blur' }
-          ],
-          telp: [
-            { required: true, message: '请输入您的联系方式', trigger: 'blur' }
-          ],
-          education: [
-            { required: true, message: '请选择您的文化程度', trigger: 'change' }
-          ],
-          community: [
-            { required: true, message: '请输入您所属的社区', trigger: 'blur' }
-          ],
-          isMotion: [
-              { required: true, message: '请选择您是否规律参加体育锻炼', trigger: 'change' }
-          ],
-          isSmoke: [
-              { required: true, message: '请选择您是否吸烟', trigger: 'change' }
-          ],
-          isDrink: [
-              { required: true, message: '请选择您是否饮酒', trigger: 'change' }
-          ],
-          isMemoryDown: [
-              { required: true, message: '您近年来是否存在记忆明显下降现象？', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写所了解的知识', trigger: 'blur' }
-          ]
-        }
-      };
+        return {
+            data: [],
+            search: [],
+            state: '',
+            timeout:  null,
+
+        };
+    },
+    mounted(){
+        //初始化，获取信息
+        this.init();
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$alert('已分配符合个人情况的测试内容', '提交成功', {
-              confirmButtonText: '确定'
-            });
-            this.$router.push({path: '/aside/adExamOne'});
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-        
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        init() {
+            this.$axios.post('/getAnalysisMessage',{
+
+            }).then(response => {
+                let res = response.data;
+                for(var i = 0; i < res.data.length; i++) {
+                    this.data.push(res.data[i]);
+                }
+                this.search = this.data;
+            }).catch(err => {
+                this.$message({
+                    showClose: true,
+                    message: 'error get!!',
+                    type: 'warning'
+                });
+            })
+        },
+        querySearchAsync(queryString, cb) {
+            var search = this.search;
+            var results = queryString ? search.filter(this.createStateFilter(queryString)) : search;
+            clearTimeout(this.timeout);
+            this.timeout = setTimeout(() => {
+                cb(results);
+            }, 3000 * Math.random());
+        },
+        createStateFilter(queryString) {
+            return (state) => {
+                return (state.name.indexOf(queryString) === 0);
+            };
+        },
+        handleSelect(item) {
+            console.log(item);
+        }
     }
-  }
+}
 </script>
 
 <style lang="scss">
@@ -109,24 +128,20 @@
                 padding-left: 60px;
             }
         }
-
-        .base-title {
-            width: 300px;
-            height: 40px;
-            line-height: 40px;
-            margin: 0 auto;
-            padding-top: 30px; 
-            font-size: 26px;
-            text-align: center;
-        }   
         
-        .form-border {
+        .form-border-search {
+            width: 150px;
             border: 1px solid #ccc;
             margin: 40px 100px;
             padding: 20px;
             background: #fff;
         }
+
+        .Message-search {
+            margin: 40px 0 0 100px;
+            .el-autocomplete {
+                width: 500px;
+            }
+        }
     }
-
 </style>
-

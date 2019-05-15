@@ -1,92 +1,87 @@
 <template>
     <el-main>
         <div class="el-main-title"><span>试卷成绩统计</span></div>
-        <div :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class=" form-border">
+        <!-- <div :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class=" form-border">
             <div>试卷成绩</div>
+        </div> -->
+        <div>
+            <el-table :data="data" border>
+                <el-table-column prop="id" label="序号">
+                    <template  slot-scope="scope">
+                        <div :disabled="data[scope.$index].isDistabled">{{data[scope.$index].id}}</div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="testName" label="试卷名称">
+                    <template  slot-scope="scope">
+                        <div :disabled="data[scope.$index].isDistabled">
+                            {{data[scope.$index].testName}}
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="testCode" label="试卷所得分数">
+                    <template  slot-scope="scope">
+                        <div :disabled="data[scope.$index].isDistabled">
+                            {{data[scope.$index].testCode}}分
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="fullMark" label="试卷满分分数">
+                    <template  slot-scope="scope">
+                        <div :disabled="data[scope.$index].isDistabled">
+                            {{data[scope.$index].fullMark}}分
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="useTime" label="考试所用时间">
+                    <template  slot-scope="scope">
+                        <div :disabled="data[scope.$index].isDistabled">
+                            {{data[scope.$index].useTime}}分钟
+                        </div>
+                    </template>
+                </el-table-column>
+                <el-table-column prop="finishTime" label="考试完成时间">
+                    <template  slot-scope="scope">
+                        <div :disabled="data[scope.$index].isDistabled">
+                            {{data[scope.$index].finishTime}}
+                        </div>
+                    </template>
+                </el-table-column>
+            </el-table>
         </div>
     </el-main>
 </template>
 <script>
   export default {
     data() {
-      return {
-        ruleForm: {
-            name: '',
-            type: [],
-            ill: [],
-            sex: '',
-            desc: '',
-            age: '',
-            telp: '',
-            education: '',
-            community: '',
-            isMotion: '',
-            isSmoke: '',
-            isDrink: '',
-            isMemoryDown: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入您的名字', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请选择您患有的慢性病症或无', trigger: 'change' }
-          ],
-          ill: [
-            { type: 'array', required: true, message: '请选择您患有的影响认知功能疾病史或无', trigger: 'change' }
-          ],
-          sex: [
-            { required: true, message: '请选择您的性别', trigger: 'change' }
-          ],
-          age: [
-            { required: true, message: '请输入您的年龄', trigger: 'blur' }
-          ],
-          telp: [
-            { required: true, message: '请输入您的联系方式', trigger: 'blur' }
-          ],
-          education: [
-            { required: true, message: '请选择您的文化程度', trigger: 'change' }
-          ],
-          community: [
-            { required: true, message: '请输入您所属的社区', trigger: 'blur' }
-          ],
-          isMotion: [
-              { required: true, message: '请选择您是否规律参加体育锻炼', trigger: 'change' }
-          ],
-          isSmoke: [
-              { required: true, message: '请选择您是否吸烟', trigger: 'change' }
-          ],
-          isDrink: [
-              { required: true, message: '请选择您是否饮酒', trigger: 'change' }
-          ],
-          isMemoryDown: [
-              { required: true, message: '您近年来是否存在记忆明显下降现象？', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写所了解的知识', trigger: 'blur' }
-          ]
-        }
-      };
+        return {
+            data: []
+        };
+    },
+    mounted(){
+        //初始化，获取信息
+        this.init();
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$alert('已分配符合个人情况的测试内容', '提交成功', {
-              confirmButtonText: '确定'
-            });
-            this.$router.push({path: '/aside/adExamOne'});
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-        
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        init() {
+            this.$axios.post('/getCodeMessage',{
+
+            }).then(response => {
+                let res = response.data;
+                for(var i = 0; i < res.data.length; i++) {
+                    var arr = res.data[i].finishTime.split('T');
+                    arr = arr.join(' ');
+                    var newA = arr.split('.');
+                    res.data[i].finishTime = newA[0];
+                    this.data.push(res.data[i]);
+                }
+            }).catch(err => {
+                this.$message({
+                    showClose: true,
+                    message: 'error get!!',
+                    type: 'warning'
+                });
+            })
+        }
     }
   }
 </script>
@@ -109,6 +104,18 @@
                 padding-left: 60px;
             }
         }
+        .el-table {
+            width: 94%;
+            margin-left: 3%;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+        .el-button {
+            border: 0;
+        }
+        .el-button-add {
+            margin: 20px 0 0 80%;
+        }
 
         .base-title {
             width: 300px;
@@ -125,6 +132,9 @@
             margin: 40px 100px;
             padding: 20px;
             background: #fff;
+        }
+        tbody tr:nth-child(2n) {
+            background: #F7F8FA;
         }
     }
 

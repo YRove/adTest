@@ -3,7 +3,7 @@
         <div v-if="!isShow">
             <div class="el-main-title"><span>是否参加考试</span></div>
             <div label-width="100px" class=" form-border">
-                <div class="title">试卷1: 早期记忆能力检测试卷（初级）</div>
+                <div class="title">试卷5: 趣味记忆能力检测试卷</div>
                 <div class="rule">
                     <ul>
                         <li v-for="(item,index) in rules" :key="item.id">
@@ -109,7 +109,7 @@
             },
             dialogVisible: false,
             paperData:{
-                name:'早期记忆能力检测试卷（初级）',
+                name:'趣味记忆能力检测试卷',
                 time:'15',
                 totalPoints:'30'
             },
@@ -118,7 +118,6 @@
             nowTime: '',
             examTime: '900',
             timer: null,
-            ansName: '',
             singleQuestions:[
                 {name: '100 - 7 等于多少？',type: 'judgement',answer: '',selection: ['91', '92', '93', '94']},
                 {name: '上题中结果再减去7等于多少？',type: 'judgement',answer: '',selection: ['86', '85', '84', '83']},
@@ -180,15 +179,15 @@
     mounted(){
         this.nowTime = new Date();
         this.id = this.$route.params.id;
-        //初始化，获取信息
-        this.init();
+        // this.startTime = new Date();
+          this.init();
         //监听滚动事件
         // window.addEventListener('scroll', this.handleScroll);
     },
     beforeDestroy(){
         window.removeEventListener('scroll', this.handleScroll);
     },
-    methods: {
+    methods:{
         init() {
             this.$axios.post('/getMessage',{
                 id: this.$route.query.id
@@ -303,7 +302,7 @@
                         this.total--;
                         if (this.total == 0) {
                             window.clearInterval(jump);
-                            this.$router.push({path: '/aside/testPaperResult', query: {id: this.$route.query.id}});
+                            this.$router.push({path: '/aside/testPaperResult'});
                         }
                     },1000)
                     
@@ -313,7 +312,7 @@
         },
         tempAttend() {
             //暂不参加考试
-            this.$router.push({path: '/aside/articlePath', query: {id: this.$route.query.id}})
+            this.$router.push({path: '/aside/articlePath'})
         },
         submit(isMust){
             //判断是否提前交卷
@@ -325,8 +324,6 @@
                     //点击确定时执行的代码，此时判断答案是否正确
                     const h = this.$createElement;
                     this.getCode();
-                    //提交试卷信息，增加到数据库
-                    this.submitApi();
                     this.$notify({
                         title: '提交试卷',
                         message: h('i', { style: 'color: teal'}, '正在为您计算试卷成绩及统计分析，5s后为您跳转到试卷成绩页面!')
@@ -336,7 +333,7 @@
                         this.total--;
                         if (this.total == 0) {
                             window.clearInterval(jump);
-                            this.$router.push({path: '/aside/testPaperResult', query: {id: this.$route.query.id}});
+                            this.$router.push({path: '/aside/testPaperResult'});
                         }
                     },1000)
                 }).catch(()=>{

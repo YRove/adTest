@@ -1,73 +1,39 @@
 <template>
     <el-main>
         <div class="el-main-title"><span>社区卫生中心信息</span></div>
-        <div :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class=" form-border">
-            <div>nihoa</div>
+        <div label-width="100px" class="form-border-community">
+            <div>{{community}}-社区卫生中心信息</div>
+        </div>
+        <div class="especial">
+            <table class="especial-table">
+                <tbody>
+                    <tr v-for="(item, index) in communityMessage">
+                        <td>
+                            {{item.type}}
+                        </td>
+                        <td>
+                            {{item.detail}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </el-main>
 </template>
 <script>
   export default {
     data() {
-      return {
-        ruleForm: {
-            name: '',
-            type: [],
-            ill: [],
-            sex: '',
-            desc: '',
-            age: '',
-            telp: '',
-            education: '',
-            community: '',
-            isMotion: '',
-            isSmoke: '',
-            isDrink: '',
-            isMemoryDown: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入您的名字', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请选择您患有的慢性病症或无', trigger: 'change' }
-          ],
-          ill: [
-            { type: 'array', required: true, message: '请选择您患有的影响认知功能疾病史或无', trigger: 'change' }
-          ],
-          sex: [
-            { required: true, message: '请选择您的性别', trigger: 'change' }
-          ],
-          age: [
-            { required: true, message: '请输入您的年龄', trigger: 'blur' }
-          ],
-          telp: [
-            { required: true, message: '请输入您的联系方式', trigger: 'blur' }
-          ],
-          education: [
-            { required: true, message: '请选择您的文化程度', trigger: 'change' }
-          ],
-          community: [
-            { required: true, message: '请输入您所属的社区', trigger: 'blur' }
-          ],
-          isMotion: [
-              { required: true, message: '请选择您是否规律参加体育锻炼', trigger: 'change' }
-          ],
-          isSmoke: [
-              { required: true, message: '请选择您是否吸烟', trigger: 'change' }
-          ],
-          isDrink: [
-              { required: true, message: '请选择您是否饮酒', trigger: 'change' }
-          ],
-          isMemoryDown: [
-              { required: true, message: '您近年来是否存在记忆明显下降现象？', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写所了解的知识', trigger: 'blur' }
-          ]
-        }
-      };
+        return {
+            community: '中心小区',
+            communityMessage: [
+                {type: '名称', detail: '中心小区'},
+                {type: '相关管理人', detail: '张三'},
+                {type: '联系方式', detail: '18936363789'},
+                {type: '社区基本情况', detail: '包括住户数、服务人口年龄构成比、发病率等'},
+                {type: '住户数', detail: '100户'},
+                {type: '康复', detail: '接纳上级医院转回的康复期病人，侧重于慢性病、术后病人及残疾病人康复指导和管理'},
+            ]
+        };
     },
     methods: {
       submitForm(formName) {
@@ -120,11 +86,61 @@
             text-align: center;
         }   
         
-        .form-border {
+        .form-border-community {
             border: 1px solid #ccc;
             margin: 40px 100px;
             padding: 20px;
-            background: #fff;
+            background-color:yellow;
+            color: #394259;
+            font-size: 20px;
+            font-family: PingFangSC-Medium;
+        }
+        .especial {
+            margin: 0px 10px 72px 100px;
+
+            table {
+                border-collapse: collapse;
+                table-layout: fixed;
+                line-height: normal;
+                border: 1px solid #ccc;
+            }
+
+            table td {
+                border: 1px solid #ccc;
+                opacity: 0.9;
+                font-family: PingFangSC-Medium;
+                font-size: 20px;
+                color: #394259;
+                line-height: 20px;
+                padding: 10px 0;
+                text-align: left;
+            }
+
+            tbody tr:nth-child(2n) {
+                background: #F7F8FA;
+            }
+
+            tbody td:nth-child(n + 2) {
+                font-family: FDCfont-Bold;
+                font-size: 20px;
+                padding: 10px 0;
+                color: #F75348;
+                line-height: 20px;
+            }
+            table.especial-table tr td:nth-child(1) {
+                padding-left: 10px;
+                padding-right: 20px;
+                text-align: left;
+            }
+            table.especial-table tr td:nth-child(2) {
+                padding-left: 10px;
+                padding-right: 20px;
+                line-height: 30px;
+                text-align: left;
+            }
+            thead td:nth-child(1) {
+                width: 170px;
+            }
         }
     }
 

@@ -25,5 +25,19 @@ var sqlMap = {
         select_id: 'SELECT * from baseInformation where id = ?',    //查询 id
         select_name: 'SELECT * from baseInformation where name = ?'      //查询 name
     },
+    submitExam: {
+        add: 'insert into examMessage(testName, testCode, fullMark, useTime, name) values (?, ?, ?, ?, ?)',
+        select_mess: 'SELECT * from examMessage',    //查询 message
+        select_name: 'SELECT * from examMessage where testName = ?'      //查询 name
+    },
+    question: {
+        select_question: 'SELECT * from question',
+    },
+    personalAnalysis: {
+        add: 'insert into personalAnalysis(id, name, testNum, aveIndex, wholeTime, inclination) values (?, ?, ?, ?, ?, ?)',
+        select_id: 'SELECT * from personalAnalysis where id = ?',    //查询 id
+        select_name: 'SELECT * from personalAnalysis where testName = ?',      //查询 name
+        select_mess: 'SELECT * from personalAnalysis',    //查询 message
+    },
 }
 module.exports = sqlMap;

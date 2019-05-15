@@ -1,94 +1,52 @@
 <template>
     <el-main>
         <div class="el-main-title"><span>题目管理</span></div>
-        <div :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class=" form-border">
+        <div label-width="100px" class="form-border-question">
             <div>题目管理</div>
+        </div>
+        <div class="especial">
+            <table class="especial-table">
+                <tbody>
+                    <tr v-for="(item, index) in question">
+                        <td>
+                            {{index + 1}}. {{item.title}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </el-main>
 </template>
 <script>
-  export default {
+export default {
     data() {
-      return {
-        ruleForm: {
-            name: '',
-            type: [],
-            ill: [],
-            sex: '',
-            desc: '',
-            age: '',
-            telp: '',
-            education: '',
-            community: '',
-            isMotion: '',
-            isSmoke: '',
-            isDrink: '',
-            isMemoryDown: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入您的名字', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请选择您患有的慢性病症或无', trigger: 'change' }
-          ],
-          ill: [
-            { type: 'array', required: true, message: '请选择您患有的影响认知功能疾病史或无', trigger: 'change' }
-          ],
-          sex: [
-            { required: true, message: '请选择您的性别', trigger: 'change' }
-          ],
-          age: [
-            { required: true, message: '请输入您的年龄', trigger: 'blur' }
-          ],
-          telp: [
-            { required: true, message: '请输入您的联系方式', trigger: 'blur' }
-          ],
-          education: [
-            { required: true, message: '请选择您的文化程度', trigger: 'change' }
-          ],
-          community: [
-            { required: true, message: '请输入您所属的社区', trigger: 'blur' }
-          ],
-          isMotion: [
-              { required: true, message: '请选择您是否规律参加体育锻炼', trigger: 'change' }
-          ],
-          isSmoke: [
-              { required: true, message: '请选择您是否吸烟', trigger: 'change' }
-          ],
-          isDrink: [
-              { required: true, message: '请选择您是否饮酒', trigger: 'change' }
-          ],
-          isMemoryDown: [
-              { required: true, message: '您近年来是否存在记忆明显下降现象？', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写所了解的知识', trigger: 'blur' }
-          ]
-        }
-      };
+        return {
+            question: []
+        };
+    },
+    mounted(){
+        //初始化，获取信息
+        this.init();
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$alert('已分配符合个人情况的测试内容', '提交成功', {
-              confirmButtonText: '确定'
-            });
-            this.$router.push({path: '/aside/adExamOne'});
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-        
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        init() {
+            this.$axios.post('/questionMessage',{
+
+            }).then(response => {
+                let res = response.data;
+                for(var i = 0; i < res.data.length; i++) {
+                    this.question.push(res.data[i]);
+                }
+            }).catch(err => {
+                this.$message({
+                    showClose: true,
+                    message: 'error get!!',
+                    type: 'warning'
+                });
+            })
+        }
     }
-  }
+}
 </script>
 
 <style lang="scss">
@@ -120,11 +78,60 @@
             text-align: center;
         }   
         
-        .form-border {
+        .form-border-question {
             border: 1px solid #ccc;
-            margin: 40px 100px;
+            margin: 40px 100px 0 100px;
             padding: 20px;
             background: #fff;
+            border-bottom: 0;
+            font-family: PingFangSC-Medium;
+            font-size: 20px;
+        }
+
+        .especial {
+            margin: 0px 100px 72px 100px;
+
+            table {
+                border-collapse: collapse;
+                table-layout: fixed;
+                line-height: normal;
+                border: 1px solid #ccc;
+                width: 100%;
+            }
+
+            table td {
+                border: 1px solid #ccc;
+                opacity: 0.9;
+                font-family: PingFangSC-Medium;
+                font-size: 20px;
+                color: #394259;
+                line-height: 20px;
+                padding: 10px 0;
+                text-align: left;
+            }
+
+            tbody tr:nth-child(2n) {
+                background: #F7F8FA;
+            }
+
+            tbody td:nth-child(n + 2) {
+                font-family: FDCfont-Bold;
+                font-size: 20px;
+                padding: 10px 0;
+                color: #F75348;
+                line-height: 20px;
+            }
+            table.especial-table tr td:nth-child(1) {
+                padding-left: 10px;
+                padding-right: 20px;
+                text-align: left;
+            }
+            table.especial-table tr td:nth-child(2) {
+                padding-left: 10px;
+                padding-right: 20px;
+                line-height: 30px;
+                text-align: left;
+            }
         }
     }
 

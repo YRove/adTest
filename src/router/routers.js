@@ -4,10 +4,16 @@ import VueRouter from 'vue-router'
 // 引入组件
 import index from '@/pages/index.vue'
 import select from '@/pages/select/select'
+//个人基本信息路由
 import basePersionalInformation from '@/pages/basePersionalInformation/basePersionalInformation'
+import communityPersonalInformation from '@/pages/basePersionalInformation/communityPersonalInformation'
+import hCarePersonalInformation from '@/pages/basePersionalInformation/hCarePersonalInformation'
+import scientificPersonalInformation from '@/pages/basePersionalInformation/scientificPersonalInformation'
+
 import communityMessage from '@/pages/communityMessage/communityMessage'
 import gradeStandard from '@/pages/gradeStandard/gradeStandard'
 import statAnalysis from '@/pages/statAnalysis/statAnalysis'
+import wholeStatAnalysis from '@/pages/statAnalysis/wholeStatAnalysis'
 import testPaperResult from '@/pages/testPaperResult/testPaperResult'
 import articlePath from '@/pages/articlePath/articlePath.vue'
 import logicTrain from '@/pages/memoryTrain/logicTrain'
@@ -27,10 +33,10 @@ import FrontRegister from '@/pages/register/register'
 
 import notFound from '@/components/common/404'
 
-import constantValue from '@/components/exam/constantValue'
-import errorCode from '@/components/exam/errorCode'
-import protocol from '@/components/exam/protocol'
-import sequence from '@/components/exam/sequence'
+import adExamTwo from '@/components/exam/adExamTwo'
+import adExamThree from '@/components/exam/adExamThree'
+import adExamFour from '@/components/exam/adExamFour'
+import adExamFive from '@/components/exam/adExamFive'
 
 
 // 要告诉 vue 使用 vueRouter
@@ -70,6 +76,15 @@ const routes = [
                 path: '/aside/basePersionalInformation',component: basePersionalInformation
             },
             {
+                path: '/aside/communityPersonalInformation',component: communityPersonalInformation
+            },
+            {
+                path: '/aside/hCarePersonalInformation',component: hCarePersonalInformation
+            },
+            {
+                path: '/aside/scientificPersonalInformation',component: scientificPersonalInformation
+            },
+            {
                 path: '/aside/communityMessage',component: communityMessage
             },
             {
@@ -77,6 +92,9 @@ const routes = [
             },
             {
                 path: '/aside/statAnalysis',component: statAnalysis
+            },
+            {
+                path: '/aside/wholeStatAnalysis', component: wholeStatAnalysis
             },
             {
                 path: '/aside/testPaperResult',component: testPaperResult
@@ -103,29 +121,29 @@ const routes = [
                 path: '/aside/questionManage', component: questionManage
             },
             {
-                path: '/aside/constantValue',
-                component: constantValue,
+                path: '/aside/adExamTwo',
+                component: adExamTwo,
+                // meta: {
+                //     requiresAuth: true
+                // }
+            },
+            {
+                path: '/aside/adExamThree',
+                component: adExamThree,
+                // meta: {
+                //     requiresAuth: true
+                // }
+            },
+            {
+                path: '/aside/adExamFour',
+                component: adExamFour,
                 meta: {
                     requiresAuth: true
                 }
             },
             {
-                path: '/aside/errorCode',
-                component: errorCode,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/protocol',
-                component: protocol,
-                meta: {
-                    requiresAuth: true
-                }
-            },
-            {
-                path: '/aside/sequence',
-                component: sequence,
+                path: '/aside/adExamFive',
+                component: adExamFive,
                 meta: {
                     requiresAuth: true
                 }

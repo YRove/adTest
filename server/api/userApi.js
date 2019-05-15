@@ -209,7 +209,7 @@ router.post('/baseInformation', (req,res) => {
     var sql = $sql.baseInformation.add;
     var sql_id = $sql.baseInformation.select_id;
     var params = req.body;
-    conn.query(sql_id,params.id,function(err, result) {
+    conn.query(sql_id, params.id, function(err, result) {
         if(err) {
             console.log(err)
         }
@@ -226,6 +226,96 @@ router.post('/baseInformation', (req,res) => {
             })
         }else {
             res.send('-1')    //当前注册username与数据库重复时，data返回-1
+        }
+    })
+});
+
+//获取考试信息
+router.post('/getMessage', (req, res) => {
+    var sql_id = $sql.baseInformation.select_id;
+    var params = req.body;
+    conn.query(sql_id, params.id, function(err, result) {
+        if(err) {
+            console.log(err)
+            res.send('-1');
+        }else {
+
+            jsonWrite(res, result)
+        }
+    })
+});
+
+//获取考试分数信息
+router.post('/getCodeMessage', (req, res) => {
+    var sql = $sql.submitExam.select_mess;
+    var params = req.body;
+    conn.query(sql, params, function(err, result) {
+        if(err) {
+            console.log(err)
+            res.send('-1');
+        }else {
+            // console.log(result);
+            jsonWrite(res, result)
+        }
+    })
+});
+
+//获取题库信息
+router.post('/questionMessage', (req, res) => {
+    var sql = $sql.question.select_question;
+    var params = req.body;
+    conn.query(sql, params, function(err, result) {
+        if(err) {
+            console.log(err)
+            res.send('-1');
+        }else {
+            // console.log(result);
+            jsonWrite(res, result)
+        }
+    })
+});
+
+//获取用户测试信息
+router.post('/getAnalysisMessage', (req, res) => {
+    var sql = $sql.personalAnalysis.select_mess;
+    var params = req.body;
+    conn.query(sql, params, function(err, result) {
+        if(err) {
+            console.log(err)
+            res.send('-1');
+        }else {
+            // console.log(result);
+            jsonWrite(res, result)
+        }
+    })
+});
+
+// 提交个人分析
+router.post('/getAnalysisMessage', (req, res) => {
+    var sql = $sql.personalAnalysis.add;
+    var params = req.body;
+    var arr = [params.id, params.name, params.testNum, params.aveIndex, params.wholeTime, params.inclination]
+    conn.query(sql, arr, function(err, result) {
+        if(err) {
+            console.log(err)
+            res.send('-1');
+        }else {
+            jsonWrite(res, result)
+        }
+    })
+});
+
+// 提交考试分数信息
+router.post('/submitExam', (req, res) => {
+    var sql = $sql.submitExam.add;
+    var params = req.body;
+    var arr = [params.testName, params.testCode, params.fullMark, params.useTime, params.name]
+    conn.query(sql, arr, function(err, result) {
+        if(err) {
+            console.log(err)
+            res.send('-1');
+        }else {
+            jsonWrite(res, result)
         }
     })
 });
@@ -267,70 +357,7 @@ router.post('/baseInformation', (req,res) => {
 //         }
 //     })
 //   }
-  
-//   // 提交考试
-//   router.post('/submitExam', (req, res) => {
-//     let userName = req.session.userName;
-//     let id = req.body.id;
-//     let score = req.body.score;
-//     let startTime = req.body.startTime;
-//     let answers = req.body.answers;
-//     Student.findOne({"userName":userName},(err,doc)=>{
-//       if(err) {
-//           res.json({
-//             status: '1',
-//             msg: err.message
-//           })
-//         } else {
-//           if(doc) {
-//             if(id === ''|| score === ''){
-//               res.json({
-//                 status: '2',
-//                 msg: '参数错误'
-//               })
-//               return
-//             }
-//             doc.exams.push({
-//               _paper:id,
-//               date: new Date(),
-//               isSure: !answers.length > 0,
-//               score:score,
-//               answers: answers,
-//               startTime: startTime
-//             })
-//             doc.save();
-//             Paper.findOne({'_id':id},(err1,doc1) => {
-//               if(err1) {
-//                 res.json({
-//                   status:'1',
-//                   msg: err1.message
-//                 })
-//               } else{
-//                 if(doc1) {
-//                   doc1.examnum += 1;
-//                   doc1.save();
-//                   res.json({
-//                     status: '0',
-//                     msg: 'success'
-//                   })
-//                 } else {
-//                   res.json({
-//                     status: '1',
-//                     msg: '没有找到该试卷'
-//                   })
-//                 }
-//               }
-//             })
-            
-//           } else {
-//             res.json({
-//               status: '1',
-//               msg: '没找到当前用户!'
-//             })
-//           }
-//         }
-//     })
-//   }
+
 
 
 module.exports = router;
