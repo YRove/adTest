@@ -69,6 +69,17 @@
                         </router-link>
                     </el-menu-item-group>
                 </el-submenu>
+                <el-submenu index="4">
+                    <template slot="title"><i class="el-icon-phone"></i>留言板模块</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/messageBoardSubmit',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardSubmit">提交留言信息</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/messageBoardShow',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardShow">留言反馈</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
                 <router-link :to="{path:'/aside/gradeStandard',query:{type: type,id: code}}">
                     <el-menu-item index="/aside/gradeStandard">
                         <template slot="title"><i class="el-icon-star-off"></i>量表评分规范</template>
@@ -102,6 +113,28 @@
                         </router-link>
                     </el-menu-item-group>
                 </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-edit"></i>统计分析</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/wholeStatAnalysis',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/wholeStatAnalysis">
+                                <template slot="title"><i class="el-icon-star-off"></i>整体情况统计分析</template>
+                            </el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+
+                <el-submenu index="4">
+                    <template slot="title"><i class="el-icon-phone"></i>留言板模块</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/messageBoardSubmit',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardSubmit">提交留言信息</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/messageBoardShow',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardShow">留言反馈</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
                 <router-link :to="{path:'/aside/scientificPersonalInformation',query:{type: type,id: code}}">
                     <el-menu-item index="/aside/scientificPersonalInformation">
                         <template slot="title"><i class="el-icon-document"></i>个人信息表</template>
@@ -130,6 +163,28 @@
                         </router-link>
                     </el-menu-item-group>
                 </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-edit"></i>统计分析</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/wholeStatAnalysis',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/wholeStatAnalysis">
+                                <template slot="title"><i class="el-icon-star-off"></i>整体情况统计分析</template>
+                            </el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+
+                <el-submenu index="4">
+                    <template slot="title"><i class="el-icon-phone"></i>留言板模块</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/messageBoardSubmit',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardSubmit">提交留言信息</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/messageBoardShow',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardShow">留言反馈</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
                 <router-link :to="{path:'/aside/hCarePersonalInformation',query:{type: type,id: code}}">
                     <el-menu-item index="/aside/hCarePersonalInformation">
                         <template slot="title"><i class="el-icon-document"></i>个人信息表</template>
@@ -155,6 +210,28 @@
                     <el-menu-item-group>
                         <router-link :to="{path:'/aside/userMessageAdmin',query:{type: type,id: code}}">
                             <el-menu-item index="/aside/userMessageAdmin">用户信息管理</el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title"><i class="el-icon-edit"></i>统计分析</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/wholeStatAnalysis',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/wholeStatAnalysis">
+                                <template slot="title"><i class="el-icon-star-off"></i>整体情况统计分析</template>
+                            </el-menu-item>
+                        </router-link>
+                    </el-menu-item-group>
+                </el-submenu>
+
+                <el-submenu index="4">
+                    <template slot="title"><i class="el-icon-phone"></i>留言板模块</template>
+                    <el-menu-item-group>
+                        <router-link :to="{path:'/aside/messageBoardSubmit',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardSubmit">提交留言信息</el-menu-item>
+                        </router-link>
+                        <router-link :to="{path:'/aside/messageBoardShow',query:{type: type,id: code}}">
+                            <el-menu-item index="/aside/messageBoardShow">留言反馈</el-menu-item>
                         </router-link>
                     </el-menu-item-group>
                 </el-submenu>

@@ -9,6 +9,9 @@ import basePersionalInformation from '@/pages/basePersionalInformation/basePersi
 import communityPersonalInformation from '@/pages/basePersionalInformation/communityPersonalInformation'
 import hCarePersonalInformation from '@/pages/basePersionalInformation/hCarePersonalInformation'
 import scientificPersonalInformation from '@/pages/basePersionalInformation/scientificPersonalInformation'
+//留言板路由
+import messageBoardShow from '@/pages/messageBoard/messageBoardShow'
+import messageBoardSubmit from '@/pages/messageBoard/messageBoardSubmit'
 
 import communityMessage from '@/pages/communityMessage/communityMessage'
 import gradeStandard from '@/pages/gradeStandard/gradeStandard'
@@ -74,6 +77,12 @@ const routes = [
             },
             {
                 path: '/aside/basePersionalInformation',component: basePersionalInformation
+            },
+            {
+                path: '/aside/messageBoardShow',component: messageBoardShow
+            },
+            {
+                path: '/aside/messageBoardSubmit',component: messageBoardSubmit
             },
             {
                 path: '/aside/communityPersonalInformation',component: communityPersonalInformation

@@ -3,20 +3,20 @@
         <div class="el-main-title"><span>用户信息管理</span></div>
             <div class="Message-search">
                 <el-autocomplete
-                v-model="state"
-                :fetch-suggestions="querySearchAsync"
-                placeholder="请输入内容"
-                @select="handleSelect"
-            >
-                <template slot="prepend" icon="el-icon-search">信 息 查 询 <i class="el-icon-search"></i></template>
-            </el-autocomplete>
+                    v-model="state"
+                    :fetch-suggestions="querySearchAsync"
+                    placeholder="请输入内容"
+                    @select="handleSelect"
+                >
+                    <template slot="prepend" icon="el-icon-search">信 息 查 询 <i class="el-icon-search"></i></template>
+                </el-autocomplete>
             </div>
             
         <!-- <div label-width="100px" class="form-border-search">
             <div>查询结果</div>
             <div>{{state}}</div>
         </div> -->
-        <div>
+        <div class="message">
             <el-table :data="data" border>
                 <el-table-column prop="name" label="姓名">
                     <template slot-scope="scope">
@@ -138,10 +138,13 @@ export default {
         }
 
         .Message-search {
-            margin: 40px 0 0 100px;
+            margin: 40px 0 40px 100px;
             .el-autocomplete {
                 width: 500px;
             }
+        }
+        .message {
+            margin: 0 40px;
         }
     }
 </style>

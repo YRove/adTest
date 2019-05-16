@@ -107,11 +107,14 @@ export default {
             inclinate: ['无患病倾向', '有轻度患病的倾向，建议进行记忆训练', '有中度患病的倾向，建议进行记忆训练', '有患病倾向，建议去医院进行诊断']
         };
     },
-    mounted(){
+    created() {
         //初始化，获取信息
         this.init();
         //对个人情况进行分析，将结果存入数据库
         this.standard();
+    },
+    mounted(){
+        
     },
     methods: {
         init() {

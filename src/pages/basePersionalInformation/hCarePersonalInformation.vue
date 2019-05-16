@@ -17,12 +17,12 @@
             <el-form-item label="4、联系电话" prop="telp">
                 <el-input v-model="ruleForm.telp"></el-input>
             </el-form-item>
-            <el-form-item label="5、所属医院" prop="community">
-                <el-input v-model="ruleForm.community"></el-input>
+            <el-form-item label="5、所属研究所" prop="community" label-width="80px;">
+                <el-input v-model="ruleForm.community" style="width:500px;margin-left: 100px;"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
+                <el-button type="info" @click="resetForm('ruleForm')" style="margin-left: 100px;">重置</el-button>
             </el-form-item>
         </el-form>
     </div>
@@ -118,7 +118,7 @@
         }
 
         .form-border {
-            width: 400px;
+            width: 600px;
             border: 1px solid #ccc;
             margin: 40px 100px;
             padding: 20px;

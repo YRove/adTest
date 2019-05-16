@@ -116,7 +116,8 @@
             code: 0,
             startTime:'',
             nowTime: '',
-            examTime: '900',
+            examTime5: '900',
+            whole5: '900',
             timer: null,
             singleQuestions:[
                 {name: '100 - 7 等于多少？',type: 'judgement',answer: '',selection: ['91', '92', '93', '94']},
@@ -157,7 +158,7 @@
     },
     computed: {
         time() {
-            let time = this.examTime;
+            let time = this.examTime5;
             let hour = 0;
             let mm = 0;
             let ss = 0;
@@ -290,8 +291,8 @@
             //立即参加考试，此时开始计时进行考试, 考试时间到了，跳转到试卷成绩页面。
             this.isShow = true;
             let clock = window.setInterval(() => {
-                this.examTime--;
-                if (this.examTime == 0) {
+                this.examTime5--;
+                if (this.examTime5 == 0) {
                     window.clearInterval(clock);
                     const h = this.$createElement;
                     this.$notify({
@@ -316,26 +317,15 @@
         },
         submit(isMust){
             //判断是否提前交卷
-            if(this.examTime >= 0){
+            if(this.examTime5 >= 0){
                 this.$confirm('是否提前交卷？', '友情提示', {
                     confirmButtonText: '确定',
                     cancelButtonText: '取消',
                 }).then(() => {
                     //点击确定时执行的代码，此时判断答案是否正确
-                    const h = this.$createElement;
                     this.getCode();
-                    this.$notify({
-                        title: '提交试卷',
-                        message: h('i', { style: 'color: teal'}, '正在为您计算试卷成绩及统计分析，5s后为您跳转到试卷成绩页面!')
-                    });
-
-                    let jump = window.setInterval(() => {
-                        this.total--;
-                        if (this.total == 0) {
-                            window.clearInterval(jump);
-                            this.$router.push({path: '/aside/testPaperResult'});
-                        }
-                    },1000)
+                    //提交试卷信息，增加到数据库
+                    this.submitApi();
                 }).catch(()=>{
                     this.$message({
                     type: 'info',
@@ -345,14 +335,28 @@
             }
         },
         submitApi() {
-            this.$axios.post('/api/submitExam',{
-                score: this.code,
+            //提交试卷信息，增加到数据库，跳转到成绩页面
+            this.$axios.post('/submitExam',{
+                testCode: this.code,
                 testName: this.paperData.name,
                 fullMark: this.paperData.totalPoints,
-                useTime: this.examTime / 60,
+                useTime: ((this.whole5 - this.examTime5) / 60).toFixed(2),
                 name: this.ansName
             }).then(response => {
                 let res = response.data;
+                const h = this.$createElement;
+                this.$notify({
+                    title: '提交试卷',
+                    message: h('i', { style: 'color: teal'}, '正在为您计算试卷成绩及统计分析，5s后为您跳转到试卷成绩页面!')
+                });
+                let jump = window.setInterval(() => {
+                    this.total--;
+                    if (this.total == 0) {
+                        window.clearInterval(jump);
+                        this.$router.push({path: '/aside/testPaperResult', query: {id: this.$route.query.id}});
+                    }
+                },1000)
+
             }).catch(err => {
                 this.$message.error('提交失败!');
             })

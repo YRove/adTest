@@ -117,6 +117,7 @@
             startTime:'',
             nowTime: '',
             examTime: '900',
+            whole: '900',
             timer: null,
             ansName: '',
             singleQuestions:[
@@ -323,22 +324,9 @@
                     cancelButtonText: '取消',
                 }).then(() => {
                     //点击确定时执行的代码，此时判断答案是否正确
-                    const h = this.$createElement;
                     this.getCode();
                     //提交试卷信息，增加到数据库
                     this.submitApi();
-                    this.$notify({
-                        title: '提交试卷',
-                        message: h('i', { style: 'color: teal'}, '正在为您计算试卷成绩及统计分析，5s后为您跳转到试卷成绩页面!')
-                    });
-
-                    let jump = window.setInterval(() => {
-                        this.total--;
-                        if (this.total == 0) {
-                            window.clearInterval(jump);
-                            this.$router.push({path: '/aside/testPaperResult', query: {id: this.$route.query.id}});
-                        }
-                    },1000)
                 }).catch(()=>{
                     this.$message({
                     type: 'info',
@@ -348,14 +336,28 @@
             }
         },
         submitApi() {
-            this.$axios.post('/api/submitExam',{
-                score: this.code,
+            //提交试卷信息，增加到数据库，跳转到成绩页面
+            this.$axios.post('/submitExam',{
+                testCode: this.code,
                 testName: this.paperData.name,
                 fullMark: this.paperData.totalPoints,
-                useTime: this.examTime / 60,
+                useTime: ((this.whole - this.examTime) / 60).toFixed(2),
                 name: this.ansName
             }).then(response => {
                 let res = response.data;
+                const h = this.$createElement;
+                this.$notify({
+                    title: '提交试卷',
+                    message: h('i', { style: 'color: teal'}, '正在为您计算试卷成绩及统计分析，5s后为您跳转到试卷成绩页面!')
+                });
+                let jump = window.setInterval(() => {
+                    this.total--;
+                    if (this.total == 0) {
+                        window.clearInterval(jump);
+                        this.$router.push({path: '/aside/testPaperResult', query: {id: this.$route.query.id}});
+                    }
+                },1000)
+
             }).catch(err => {
                 this.$message.error('提交失败!');
             })

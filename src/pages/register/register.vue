@@ -3,7 +3,7 @@
         <reheader></reheader>
         <div class="login-page-inner">
         <div class="input-text-wrapper">
-            <el-form :model="userForm" :rules="rules" ref="ruleForm"  class="demo-ruleForm" label-width="100px">
+            <el-form :model="userForm" :rules="rules"  class="demo-ruleForm" label-width="100px">
                 <el-form-item label="账号名：" prop="username">
                     <el-input v-model="userForm.username" placeholder="请输入您的姓名"></el-input>
                 </el-form-item>
@@ -71,15 +71,16 @@
                         username: this.userForm.username,
                         password: this.userForm.password,
                         type: this.type
-                    }).then(res => {
-                    if (res.data == 'ok') {
-                        this.$message({
-                        showClose: true,
-                        message: '恭喜你，注册成功！',
-                        type: 'success'
-                        });
-                        this.$router.push('/')
-                    }
+                    }).then(response => {
+                        var res = response.data;
+                        if (res) {
+                            this.$message({
+                            showClose: true,
+                            message: '恭喜你，注册成功！',
+                            type: 'success'
+                            });
+                            this.$router.push('/')
+                        }
                     }).catch(err => {
                         this.$message({
                             showClose: true,

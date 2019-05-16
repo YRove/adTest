@@ -1,92 +1,56 @@
 <template>
     <el-main>
-        <div class="el-main-title"><span>逻辑训练</span></div>
-        <div :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class=" form-border">
-            <div>逻辑训练</div>
+        <div class="el-main-title"><span>逻辑思维训练</span></div>
+        <div class="especial">
+            <table class="especial-table">
+                <tbody>
+                    <center v-for="(item, index) in question">
+                        <tr>
+                            <td colspan="3" height="100" width="500" class="logic-title">
+                                {{index + 1}}. {{item.title}}
+                            </td>
+                            <td rowspan="3" height="200" width="200" :key="index">
+                                <el-button type="primary" @click="showAnswer()">正确答案</el-button>
+                                <el-button type="info" @click="holdAnswer()" class="loginBtn">隐藏</el-button>
+                                <div v-if="isShow">
+                                    &nbsp&nbsp&nbsp&nbsp{{item.currentA}}
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td rowspan="2" height="100" width="500">
+                                <el-input type="textarea" v-model="item.yAnswer" placeholder="写下您的想法或者说出您的想法，右边栏可查看正确答案" rows="5"></el-input>
+                            </td>
+                        </tr>
+                    </center>
+
+                </tbody>
+            </table>
         </div>
     </el-main>
 </template>
 <script>
   export default {
     data() {
-      return {
-        ruleForm: {
-            name: '',
-            type: [],
-            ill: [],
-            sex: '',
-            desc: '',
-            age: '',
-            telp: '',
-            education: '',
-            community: '',
-            isMotion: '',
-            isSmoke: '',
-            isDrink: '',
-            isMemoryDown: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入您的名字', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请选择您患有的慢性病症或无', trigger: 'change' }
-          ],
-          ill: [
-            { type: 'array', required: true, message: '请选择您患有的影响认知功能疾病史或无', trigger: 'change' }
-          ],
-          sex: [
-            { required: true, message: '请选择您的性别', trigger: 'change' }
-          ],
-          age: [
-            { required: true, message: '请输入您的年龄', trigger: 'blur' }
-          ],
-          telp: [
-            { required: true, message: '请输入您的联系方式', trigger: 'blur' }
-          ],
-          education: [
-            { required: true, message: '请选择您的文化程度', trigger: 'change' }
-          ],
-          community: [
-            { required: true, message: '请输入您所属的社区', trigger: 'blur' }
-          ],
-          isMotion: [
-              { required: true, message: '请选择您是否规律参加体育锻炼', trigger: 'change' }
-          ],
-          isSmoke: [
-              { required: true, message: '请选择您是否吸烟', trigger: 'change' }
-          ],
-          isDrink: [
-              { required: true, message: '请选择您是否饮酒', trigger: 'change' }
-          ],
-          isMemoryDown: [
-              { required: true, message: '您近年来是否存在记忆明显下降现象？', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写所了解的知识', trigger: 'blur' }
-          ]
-        }
-      };
+        return {
+            question: [
+                {
+                    title: '小丽买了一双漂亮的鞋子，她的同学都没有见过这双鞋了，于是大家就猜，小红说：“你买的鞋不会是红色的。”小彩说：“你买的鞋子不是黄的就是黑的。”小玲说：“你买的鞋子一定是黑色的。”这三个人的看法至少有一种是正确的，至少有一种是错误的。请问，小丽的鞋子到底是什么颜色的？',
+                    yAnswer: '',
+                    currentA: '假设小丽的鞋子是黑色的，那么三种看法都是正确的，不符合题意；假设是黄色的，前两种看法是正确的，第三种看法是错误的；假设是红色的，那么三句话都是错误的。因此，小丽的裙子是黄色的。'
+                },
+            ],
+            isShow: false
+        };
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$alert('已分配符合个人情况的测试内容', '提交成功', {
-              confirmButtonText: '确定'
-            });
-            this.$router.push({path: '/aside/adExamOne'});
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-        
-      },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
-      }
+        showAnswer() {
+            this.isShow = true;
+        },
+        holdAnswer() {
+            this.isShow = false;
+        }
+
     }
   }
 </script>
@@ -109,23 +73,27 @@
                 padding-left: 60px;
             }
         }
-
-        .base-title {
-            width: 300px;
-            height: 40px;
-            line-height: 40px;
-            margin: 0 auto;
-            padding-top: 30px; 
-            font-size: 26px;
-            text-align: center;
-        }   
         
-        .form-border {
-            border: 1px solid #ccc;
-            margin: 40px 100px;
-            padding: 20px;
-            background: #fff;
+        .especial {
+            margin-top: 40px;
+            .logic-title {
+                font-size: 18px;
+                line-height: 26px;
+            }
+            .especial-table {
+                margin-left: 100px;
+            }
+            tbody {
+                border: 1px solid #ccc;
+            }
+            td {
+                border: 1px solid #ccc;
+                padding: 10px;
+            }
+
         }
+        
+
     }
 
 </style>

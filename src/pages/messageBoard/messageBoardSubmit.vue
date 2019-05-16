@@ -1,6 +1,6 @@
 <template>
     <el-main>
-        <div class="el-main-title"><span>记忆时间囊</span></div>
+        <div class="el-main-title"><span>留言板-提交留言信息</span></div>
         <div class="especial">
             <table class="especial-table">
                 <tbody>
@@ -8,7 +8,7 @@
                         <tr>
                             <td colspan="3" height="50" width="500" class="logic-title">
                                 <div>
-                                    <el-input placeholder="请写下您想保存的记忆" v-model="memory.title">
+                                    <el-input placeholder="请输入留言主题" v-model="memory.title">
                                         <template slot="prepend">主题：</template>
                                     </el-input>
                                 </div>
@@ -27,7 +27,7 @@
                         </tr>
                         <tr>
                             <td rowspan="2" height="200" width="500">
-                                <el-input type="textarea" v-model="memory.message" placeholder="写下您的想法或者说出您的想法，右边栏可查看正确答案" rows="10"></el-input>
+                                <el-input type="textarea" v-model="memory.message" placeholder="请写下您的留言内容，会尽快给您答复" rows="10"></el-input>
                             </td>
                         </tr>
                     </center>
@@ -35,6 +35,7 @@
                 </tbody>
             </table>
         </div>
+        <el-button type="primary" style="margin: 40px 0 0 600px">提交</el-button>
     </el-main>
 </template>
 <script>
@@ -107,12 +108,18 @@
             }
         }
         
-        .especial{
+        .especial {
             margin-top: 40px;
             margin-left: 100px;
             .logic-title {
                 font-size: 18px;
                 line-height: 26px;
+            }
+            td {
+                border: 1px solid #ccc;
+            }
+            tr {
+                border: 1px solid #ccc;
             }
         }
         
